@@ -50,8 +50,7 @@ public class HomeController {
         } else if (authorities.contains(new SimpleGrantedAuthority("ROLE_ALUMNO"))) {
             return "redirect:/alumno";
         }
-
-        // Si el rol no coincide con ninguno de los roles esperados, redirige a una página de error o muestra un mensaje apropiado.
+        
         return "error";
     }
 
