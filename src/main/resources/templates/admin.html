@@ -3,7 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>ADMIN</title>
-  BIENVENIDO ADMIN
+    <h1> BIENVENIDO <span th:text="${nombreUsuario}"></span></h1>
+
+
+    <form action="/admin/createUser" method="post">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre">
+        <br>
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email">
+        <br>
+        <label for="contrasena">Contraseña:</label>
+        <input type="password" id="contrasena" name="contrasena">
+        <br>
+        <label for="rol">Rol:</label>
+        <select id="rol" name="rol">
+            <option value="ADMINISTRADOR">Administrador</option>
+            <option value="PROFESOR">Profesor</option>
+            <option value="ALUMNO">Alumno</option>
+        </select>
+        <br>
+        <input type="submit" value="Crear Usuario">
+    </form>
+
+
+
+
+
+
+
     <a href="/logout">Cerrar sesión</a>
 </head>
 <body>
