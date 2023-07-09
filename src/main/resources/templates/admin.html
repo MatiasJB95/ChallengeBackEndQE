@@ -2,39 +2,54 @@
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>ADMIN</title>
-    <h1> BIENVENIDO <span th:text="${nombreUsuario}"></span></h1>
-
-
-    <form action="/admin/createUser" method="post">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre">
-        <br>
-        <label for="email">Email:</label>
-        <input type="text" id="email" name="email">
-        <br>
-        <label for="contrasena">Contraseña:</label>
-        <input type="password" id="contrasena" name="contrasena">
-        <br>
-        <label for="rol">Rol:</label>
-        <select id="rol" name="rol">
-            <option value="ADMINISTRADOR">Administrador</option>
-            <option value="PROFESOR">Profesor</option>
-            <option value="ALUMNO">Alumno</option>
-        </select>
-        <br>
-        <input type="submit" value="Crear Usuario">
-    </form>
-
-
-
-
-
-
-
-    <a href="/logout">Cerrar sesión</a>
+    <title>Dashboard Administrador</title>
 </head>
 <body>
+<h2>Bienvenido, <span th:text="${nombreUsuario}"></span></h2>
+<p>Email: <span th:text="${email}"></span></p>
 
+<div id="contenedor">
+    <div th:if="${error}" class="alert alert-danger" role="alert">
+        <span th:text="${error}"></span>
+    </div>
+    <button id="btnCrearUsuario">Crear Administrador</button>
+
+    <div id="divCrearUsuario" style="display: none;">
+        <form action="/admin/crearAdmin" method="post">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre">
+            <br>
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email">
+            <br>
+            <label for="contrasena">Contraseña:</label>
+            <input type="password" id="contrasena" name="contrasena">
+            <br>
+            <label for="rol">Rol:</label>
+            <select id="rol" name="rol">
+                <option value="ADMINISTRADOR">Administrador</option>
+            </select>
+            <br>
+            <input type="submit" value="Crear Usuario">
+        </form>
+        <div th:if="${mensaje}">
+            <p th:text="${mensaje}" class="success-message"></p>
+        </div>
+    </div>
+</div>
+<a href="/logout">Cerrar sesión</a>
 </body>
 </html>
+<script>
+   var btnCrearUsuario = document.getElementById('btnCrearUsuario');
+    var divCrearUsuario = document.getElementById('divCrearUsuario');
+    btnCrearUsuario.addEventListener('click', function() {
+        if (divCrearUsuario.style.display === 'none') {
+            divCrearUsuario.style.display = 'block';
+            btnCrearUsuario.innerHTML = 'X';
+        } else {
+            divCrearUsuario.style.display = 'none';
+            btnCrearUsuario.innerHTML = 'Crear Usuarios';
+        }
+    });
+</script>
