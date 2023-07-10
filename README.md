@@ -1,6 +1,5 @@
 # ChallengeBackEndQE (Back de sitio Universitario) -  Spring Boot
 
- Challenge se enfoca en el desarrollo del sistema BackEnd para un sitio universitario.
 
 ## Descripción
  El Challenge se enfoca en el desarrollo del sistema BackEnd para un sitio universitario. Se trabajaron en las siguientes áreas clave:
