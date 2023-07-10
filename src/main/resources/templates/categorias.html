@@ -3,10 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <title>Listado de Categorías</title>
+  <style>
+    .hidden {
+      display: none;
+    }
+  </style>
 </head>
 <body>
 <h1>Listado de Categorías</h1>
 
+<div id="newCategoryBtn">
+  <button onclick="toggleNewCategory()">Nueva Categoría</button>
+</div>
+
+<div id="newCategoryForm" class="hidden">
+  <button onclick="toggleNewCategory()">X</button>
+  <form action="/admin/categorias" method="POST">
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" required>
+    <button type="submit">Crear Categoría</button>
+  </form>
+</div>
+
+<div th:if="${mensaje}">
+  <p th:text="${mensaje}"></p>
+  <a href="/admin/categorias">
+    <button>Volver</button>
+  </a>
+</div>
 <div th:each="categoria : ${categorias}">
   <p th:text="${categoria.nombre}"></p>
   <ul>
@@ -15,5 +39,15 @@
     </li>
   </ul>
 </div>
+
+<script>
+    function toggleNewCategory() {
+      const btn = document.getElementById('newCategoryBtn');
+      const form = document.getElementById('newCategoryForm');
+
+      btn.classList.toggle('hidden');
+      form.classList.toggle('hidden');
+    }
+  </script>
 </body>
 </html>

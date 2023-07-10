@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.thymeleaf.model.IModel;
 
 import java.util.List;
 
@@ -94,7 +95,15 @@ public class AdministradorController {
         model.addAttribute("categorias", categoriasDTO);
         return "categorias";
     }
+    @PostMapping("/admin/categorias")
+    public String registrarCategoria(@RequestParam("nombre") String nombre, Model model) {
+        Categoria categoria = new Categoria();
+        categoria.setNombre(nombre);
+        Categoria savedCategoria = categoriaService.guardarCategoria(categoria);
 
+        model.addAttribute("mensaje", "Categoria Registrada: " + savedCategoria.getNombre());
+        return "categorias";
+    }
 
 }
 

@@ -14,6 +14,7 @@ public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
 
     @Query("SELECT new com.matiasbadano.challeng.dto.CategoriaDTO(c.id, c.nombre, c.cursos) FROM Categoria c")
     List<CategoriaDTO> obtenerNombresCategorias();
+    Categoria save(Categoria categoria);
 
 }
 
