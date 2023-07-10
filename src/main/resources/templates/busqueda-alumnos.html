@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Resultados de Búsqueda de Alumnos</title>
+</head>
+<body>
+<h1>Resultados de Búsqueda de Alumnos</h1>
+
+<div th:if="${resultados.size() == 0}">
+  <p>No se encontraron resultados.</p>
+</div>
+
+<div th:if="${resultados.size() > 0}">
+  <ul>
+    <li th:each="alumno : ${resultados}">
+      <p>Nombre: <span th:text="${alumno.usuario.nombre}"></span></p>
+      <p>Email: <span th:text="${alumno.usuario.email}"></span></p>
+    </li>
+  </ul>
+</div>
+</body>
+</html>

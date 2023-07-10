@@ -35,10 +35,29 @@
         <div th:if="${mensaje}">
             <p th:text="${mensaje}" class="success-message"></p>
         </div>
+
     </div>
 </div>
-<a href="/logout">Cerrar sesión</a>
+ <div>
+<a href="/admin/cursos">
+    <button>Cursos</button>
+</a>
+
+<a href="/admin/profesores">
+    <button>Profesores</button>
+</a>
+
+<a href="/admin/alumnos">
+    <button>Alumnos</button>
+</a>
+
+<a href="/admin/categorias">
+    <button>Categorías</button>
+</a>
+</div>
+<a href="/logout"><button>Cerrer Sesion</button></a>
 </body>
+</html>
 </html>
 <script>
    var btnCrearUsuario = document.getElementById('btnCrearUsuario');

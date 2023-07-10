@@ -12,6 +12,9 @@
 <body>
 
 <h1>Listado de Alumnos</h1>
+<a href="/admin/alumnos/busqueda">
+    <button>Busqueda</button>
+</a>
 <button id="toggleFormBtn" onclick="toggleForm()">Crear Alumno</button>
 <div id="formContainer" class="hidden">
     <form id="crearProfesorForm" th:action="@{/admin/alumnos}" method="post">
@@ -27,22 +30,6 @@
         <button type="submit">Crear Alumno</button>
     </form>
 </div>
-
-<script>
-        function toggleForm() {
-            var formContainer = document.getElementById('formContainer');
-            var toggleFormBtn = document.getElementById('toggleFormBtn');
-
-            if (formContainer.classList.contains('hidden')) {
-                formContainer.classList.remove('hidden');
-                toggleFormBtn.textContent = 'X';
-            } else {
-                formContainer.classList.add('hidden');
-                toggleFormBtn.textContent = 'Crear Profesor';
-            }
-        }
-    </script>
-
 
 
 <div th:if="${mensaje}">

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle del Curso</title>
+</head>
+<body>
+<h1>Detalle del Curso</h1>
+
+<p>ID: <span th:text="${curso.id}"></span></p>
+<p>Nombre: <span th:text="${curso.nombre}"></span></p>
+<p>Categoría: <span th:text="${curso.categoria.nombre}"></span></p>
+<p>Turno: <span th:text="${curso.turno}"></span></p>
+<p>Profesor: <span th:text="${nombreProfesor}"></span></p>
+
+<div>
+    <form th:action="@{'/admin/cursos/' + ${curso.id}}" method="get">
+        <label for="nombreBusqueda">Buscar por Nombre:</label>
+        <input type="text" id="nombreBusqueda" name="nombreBusqueda" placeholder="Nombre">
+        <label for="cursoIdBusqueda">Filtro de Curso:</label>
+        <input type="text" id="cursoIdBusqueda" name="cursoIdBusqueda" placeholder="ID de Curso">
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+<div>
+    <ul>
+        <li th:each="alumno : ${alumnos}">
+            <p>Nombre: <span th:text="${alumno.nombre}"></span></p>
+            <p>Email: <span th:text="${alumno.email}"></span></p>
+            <p>Nacionalidad: <span th:text="${alumno.nacionalidad}"></span></p>
+            <p>País de Residencia: <span th:text="${alumno.paisResidencia}"></span></p>
+            <p>Edad: <span th:text="${alumno.edad}"></span></p>
+            <p>Teléfono: <span th:text="${alumno.telefono}"></span></p>
+            <p>Cursos:</p>
+            <ul>
+                <li th:each="curso : ${alumno.cursos}">
+                    <span th:text="${curso}"></span>
+                </li>
+            </ul>
+            <form th:action="@{'/admin/alumnos/' + ${alumno.id}}" method="get">
+                <button type="submit">Ver más</button>
+            </form>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

@@ -20,7 +20,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class AdministradorController {
@@ -262,6 +264,44 @@ public class AdministradorController {
         return "redirect:/admin/profesores";
     }
 
+    @GetMapping("/admin/cursos/{id}/busqueda")
+    public String obtenerDetalleCurso(@PathVariable("id") Long id, @RequestParam(value = "letra", required = false) String letra, Model model) {
+
+        Curso curso = cursoService.obtenerCursoPorId(id);
+
+        List<Alumno> alumnos = alumnoService.obtenerAlumnosPorCurso(id);
+
+        if (letra != null && !letra.isEmpty()) {
+            alumnos = alumnos.stream()
+                    .filter(alumno -> alumno.getUsuario().getNombre().toLowerCase().contains(letra.toLowerCase()))
+                    .collect(Collectors.toList());
+        }
+
+        model.addAttribute("curso", curso);
+        model.addAttribute("alumnos", alumnos);
+
+        return "detalle-curso";
+    }
+    @GetMapping("/admin/alumno/busqueda")
+    public String busquedaAlumno(@RequestParam(value = "nombre", required = false) String nombre,
+                                 @RequestParam(value = "cursoId", required = false) Long cursoId,
+                                 Model model) {
+
+        List<Alumno> resultados = new ArrayList<>();
+
+        if (nombre != null && !nombre.isEmpty()) {
+            resultados = alumnoService.buscarPorNombre(nombre);
+        }
+
+        if (cursoId != null) {
+            List<Alumno> alumnosPorCurso = alumnoService.obtenerAlumnosPorCurso(cursoId);
+            resultados.addAll(alumnosPorCurso);
+        }
+
+        model.addAttribute("resultados", resultados);
+
+        return "busqueda-alumnos";
+    }
 }
 
 

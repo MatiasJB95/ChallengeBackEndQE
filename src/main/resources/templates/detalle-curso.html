@@ -34,5 +34,18 @@
 
     <button type="submit">Actualizar</button>
 </form>
+
+<form th:action="@{/admin/cursos/{id}/busqueda(id=${curso.id})}" method="get">
+    <input type="text" name="letra" placeholder="Ingrese una letra" required>
+    <button type="submit">Buscar</button>
+</form>
+<div>
+    <h2>Resultados de la búsqueda:</h2>
+    <ul>
+        <li th:each="alumno : ${alumnos}">
+            <p th:text="${alumno.usuario.nombre}"></p>
+        </li>
+    </ul>
+</div>
 </body>
 </html>

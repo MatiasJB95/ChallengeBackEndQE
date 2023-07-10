@@ -138,6 +138,12 @@ public class AlumnoService {
         informacionAdicionalRepository.save(informacionAdicional);
         alumnoRepository.save(alumnoExistente);
     }
+    public List<Alumno> obtenerAlumnosPorCurso(Long cursoId) {
+        return alumnoRepository.findByInscripcionesCursoId(cursoId);
+    }
+    public List<Alumno> buscarPorNombre(String nombre) {
+  return alumnoRepository.findByUsuarioNombreContainingIgnoreCase(nombre);
+    }
 
     public void eliminarAlumno(Integer id) {
         alumnoRepository.deleteById(id);
