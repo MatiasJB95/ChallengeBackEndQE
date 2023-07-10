@@ -1,10 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Perfil del Alumno</title>
 </head>
 <body>
-<h1>Bienvenido Alumno</h1>
+<h2>Bienvenido, <span th:text="${nombreUsuario}"></span></h2>
+<p>Email: <span th:text="${email}"></span></p>
+
+<ul>
+    <li>
+        <!-- Detalles del alumno -->
+        <p>Nombre: <span th:text="${alumno.usuario.nombre}"></span></p>
+        <p>Email: <span th:text="${alumno.usuario.email}"></span></p>
+        <p>Nacionalidad: <span th:text="${alumno.informacionAdicional.nacionalidad}"></span></p>
+        <p>País de Residencia: <span th:text="${alumno.informacionAdicional.paisResidencia}"></span></p>
+        <p>Edad: <span th:text="${alumno.informacionAdicional.edad}"></span></p>
+        <p>Teléfono: <span th:text="${alumno.informacionAdicional.telefono}"></span></p>
+        <p>Cursos:</p>
+        <ul>
+            <li th:each="inscripcion : ${alumno.inscripciones}">
+                <span th:text="${inscripcion.curso.nombre}"></span>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<a href="/logout">Cerrar sesión</a>
 </body>
 </html>

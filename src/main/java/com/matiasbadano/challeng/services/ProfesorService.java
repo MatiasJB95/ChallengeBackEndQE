@@ -162,4 +162,9 @@ public class ProfesorService {
         profesor.removerCurso(curso);
         profesorRepository.save(profesor);
     }
+    public Categoria obtenerCategoriaPorProfesor(Long profesorId) {
+        Profesor profesor = profesorRepository.findById(Math.toIntExact(profesorId))
+                .orElseThrow(() -> new ProfesorNotFoundException("Profesor no encontrado"));
+        return profesor.getCategoria();
+    }
 }

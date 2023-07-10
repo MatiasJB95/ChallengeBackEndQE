@@ -40,6 +40,8 @@ public class SecurityConfigurations {
                .and()
                .authorizeHttpRequests()
                .requestMatchers("/admin/**").hasRole("ADMINISTRADOR")
+               .requestMatchers("/alumno/**").hasRole("ALUMNO")
+               .requestMatchers("/profesor/**").hasRole("PROFESOR")
                .requestMatchers("/dashboard/**").hasAnyRole("ADMINISTRADOR","PROFESOR","USUARIO")
                .anyRequest()
                .authenticated().and().formLogin().and().build();
