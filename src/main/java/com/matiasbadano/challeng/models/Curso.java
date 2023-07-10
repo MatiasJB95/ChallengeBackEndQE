@@ -16,7 +16,7 @@ public class Curso {
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "profesor_id")
+    @JoinColumn(name = "profesor_id", insertable = false, updatable = false)
     private Profesor profesor;
 
 
@@ -38,7 +38,6 @@ public class Curso {
 
 
 
-    // Constructor, getters, and setters
 
     public int getId() {
         return id;

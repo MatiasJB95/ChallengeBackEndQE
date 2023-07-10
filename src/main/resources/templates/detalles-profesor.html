@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalles del Profesor</title>
+</head>
+<body>
+<h1>Detalles del Profesor</h1>
+
+<div th:if="${profesor}">
+    <p>Nombre: <span th:text="${profesor.nombre}"></span></p>
+    <p>Email: <span th:text="${profesor.email}"></span></p>
+    <p>Categoría: <span th:text="${profesor.nombreCategoria}"></span></p>
+
+    <p>Cursos:</p>
+    <ul>
+        <li th:each="curso, index : ${profesor.nombresCursos}">
+            <p>Nombre: <span th:text="${curso}"></span></p>
+            <p>Turno: <span th:text="${profesor.turnosCursos[__${index.index}__]}"></span></p>
+        </li>
+    </ul>
+
+    <div>
+        <form th:action="@{'/admin/profesores/' + ${profesor.id} + '/actualizar'}" method="post">
+            <input type="hidden" name="_method" value="PUT">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" th:value="${profesor.nombre}" required><br>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" th:value="${profesor.email}" required><br>
+
+            <label for="categoriaId">Categoría:</label>
+            <select id="categoriaId" name="categoriaId" required>
+                <option value="1">Programación</option>
+                <option value="2">Economía</option>
+                <option value="3">Agronomía</option>
+                <option value="4">Medicina</option>
+                <option value="5">Idiomas</option>
+            </select><br>
+
+            <button type="submit">Actualizar</button>
+        </form>
+    </div>
+</div>
+
+
+<a href="/admin/profesores">
+    <button>Volver</button>
+</a>
+
+
+</body>
+</html>

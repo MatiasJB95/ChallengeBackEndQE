@@ -16,9 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -118,17 +116,64 @@ public class AdministradorController {
         model.addAttribute("mensaje", "Curso creado con éxito");
         return "redirect:/admin/cursos";
     }
+
     @PostMapping("/admin/alumnos")
     public String crearProfesor(@RequestParam("nombre") String nombre,
                                 @RequestParam("email") String email,
-                                @RequestParam("contrasena") String contrasena, Model model)
-                                {
+                                @RequestParam("contrasena") String contrasena, Model model) {
         alumnoService.crearAlumno(nombre, email, contrasena);
         model.addAttribute("mensaje", "Alumno creado");
         return "alumnos";
     }
 
+    @GetMapping("/admin/profesores/{profesorId}")
+    public String obtenerProfesorPorId(@PathVariable("profesorId") Long profesorId, Model model) {
+        ProfesorDTO profesorDTO = profesorService.obtenerProfesorDTOPorId(profesorId);
+        model.addAttribute("profesor", profesorDTO);
+        return "detalles-profesor";
+
+    }
+
+    @PostMapping("/admin/profesores/{profesorId}/actualizar")
+    public String actualizarProfesor(@PathVariable("profesorId") Integer profesorId, @ModelAttribute ProfesorDTO profesorDTO, @RequestParam("categoriaId") int categoriaId) {
+        profesorService.actualizarProfesor(profesorId, profesorDTO, categoriaId);
+        return "redirect:/admin/profesores";
+    }
+
+
+    @GetMapping("/admin/cursos/{id}")
+    public String obtenerCursoPorId(@PathVariable("id") Long id, Model model) {
+        Curso curso = cursoService.obtenerCursoPorId(id);
+        List<Categoria> categorias = categoriaService.obtenerTodasLasCategorias();
+        List<Profesor> profesores = profesorService.obtenerTodosLosProfesores();
+        Profesor profesor = curso.getProfesor();
+        String nombreProfesor = null;
+
+        if (profesor != null) {
+            Usuario usuario = profesor.getUsuario();
+            nombreProfesor = usuario.getNombre();
+        }
+
+        model.addAttribute("curso", curso);
+        model.addAttribute("nombreProfesor", nombreProfesor);
+        return "detalle-curso";
+    }
+    @PostMapping("/admin/cursos/{id}")
+    public String actualizarCurso(@PathVariable("id") Long id, @ModelAttribute Curso cursoActualizado) {
+        Curso curso = cursoService.obtenerCursoPorId(id);
+
+        curso.setNombre(cursoActualizado.getNombre());
+        curso.setCategoria(cursoActualizado.getCategoria());
+        curso.setTurno(cursoActualizado.getTurno());
+        curso.setProfesor(cursoActualizado.getProfesor());
+
+        cursoService.guardarCurso(curso);
+
+
+        return "redirect:/admin/cursos/" + id;
+    }
 
 }
+
 
 

@@ -6,6 +6,7 @@ public class ProfesorDTO {
     private Integer  id;
     private String nombre;
     private String email;
+    private int categoriaId;
     private String nombreCategoria;
     private List<String> nombresCursos;
     private List<String> turnosCursos;
