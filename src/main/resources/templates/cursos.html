@@ -6,6 +6,56 @@
 </head>
 <body>
 <h1>Listado de Cursos</h1>
+<button id="toggleFormBtn" onclick="toggleForm()">Crear Curso</button>
+
+<div id="formContainer" style="display: none;">
+    <form th:action="@{/admin/cursos/crear}" method="post">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required><br>
+
+        <label for="categoriaId">Categoría:</label>
+        <select id="categoriaId" name="categoriaId" required>
+            <option value="1">Programacion</option>
+            <option value="2">Economia</option>
+            <option value="3">Agronomia</option>
+            <option value="4">Medicina</option>
+            <option value="5">Idiomas</option>
+            <option value="6">Filosofia</option>
+            <option value="7">Ing Industrial</option>
+        </select>
+
+        <label for="turno">Turno:</label>
+        <select id="turno" name="turno" required>
+            <option value="Mañana">Mañana</option>
+            <option value="Tarde">Tarde</option>
+            <option value="Noche">Noche</option>
+        </select>
+
+        <button type="submit">Crear Curso</button>
+    </form>
+</div>
+<div>
+    <p th:if="${mensaje}" th:text="${mensaje}"></p>
+    <a href="/admin/cursos">
+        <button>Volver</button>
+    </a>
+</div>
+
+
+<script>
+    function toggleForm() {
+        var formContainer = document.getElementById('formContainer');
+        var toggleFormBtn = document.getElementById('toggleFormBtn');
+
+        if (formContainer.style.display === 'none') {
+            formContainer.style.display = 'block';
+            toggleFormBtn.textContent = 'X';
+        } else {
+            formContainer.style.display = 'none';
+            toggleFormBtn.textContent = 'Crear Curso';
+        }
+    }
+</script>
 
 <ul>
     <li th:each="curso : ${cursos}">

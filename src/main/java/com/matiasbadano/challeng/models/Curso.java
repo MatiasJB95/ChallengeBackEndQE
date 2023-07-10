@@ -19,6 +19,7 @@ public class Curso {
     @JoinColumn(name = "profesor_id")
     private Profesor profesor;
 
+
     public Profesor getProfesor() {
         return profesor;
     }
@@ -79,4 +80,6 @@ public class Curso {
         this.contenido = contenido;
     }
 
+    public void setCategoriaId(Long categoriaId) {
+    }
 }

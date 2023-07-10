@@ -4,6 +4,7 @@ import com.matiasbadano.challeng.dto.CursoDTO;
 import com.matiasbadano.challeng.models.Contenido;
 import com.matiasbadano.challeng.models.Curso;
 import com.matiasbadano.challeng.models.Profesor;
+import com.matiasbadano.challeng.models.Turno;
 import com.matiasbadano.challeng.repository.CursoRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,8 @@ public class CursoService {
     public CursoService(CursoRepository cursoRepository) {
         this.cursoRepository = cursoRepository;
     }
+
+
 
     public List<CursoDTO> getAllCursos() {
         List<Curso> cursos = cursoRepository.findAll();

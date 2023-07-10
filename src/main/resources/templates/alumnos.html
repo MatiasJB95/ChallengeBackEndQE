@@ -3,9 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <title>Alumnos</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
+
 <h1>Listado de Alumnos</h1>
+<button id="toggleFormBtn" onclick="toggleForm()">Crear Alumno</button>
+<div id="formContainer" class="hidden">
+    <form id="crearProfesorForm" th:action="@{/admin/alumnos}" method="post">
+        <label for="nombre">Nombre Completo:</label>
+        <input type="text" id="nombre" name="nombre" required><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+
+        <label for="contrasena">Contraseña:</label>
+        <input type="password" id="contrasena" name="contrasena" required><br>
+
+        <button type="submit">Crear Alumno</button>
+    </form>
+</div>
+
+<script>
+        function toggleForm() {
+            var formContainer = document.getElementById('formContainer');
+            var toggleFormBtn = document.getElementById('toggleFormBtn');
+
+            if (formContainer.classList.contains('hidden')) {
+                formContainer.classList.remove('hidden');
+                toggleFormBtn.textContent = 'X';
+            } else {
+                formContainer.classList.add('hidden');
+                toggleFormBtn.textContent = 'Crear Profesor';
+            }
+        }
+    </script>
+
+
+
+<div th:if="${mensaje}">
+    <p th:text="${mensaje}"></p>
+    <a href="/admin/alumnos">
+        <button>Volver</button>
+    </a>
+</div>
 
 <ul>
     <li th:each="alumno : ${alumnos}">
