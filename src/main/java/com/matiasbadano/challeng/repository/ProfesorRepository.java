@@ -21,6 +21,7 @@ public interface ProfesorRepository extends JpaRepository<Profesor, Integer> {
             "JOIN p.cursos pc " +
             "JOIN pc.curso c")
     List<ProfesorDTO> findAllProfesoresDTO();
+
 }
 
 

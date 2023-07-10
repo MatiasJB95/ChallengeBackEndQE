@@ -27,6 +27,7 @@ public class AdministradorController {
     private final CursoService cursoService;
     private final CursoRepository cursoRepository;
     private final CategoriaService categoriaService;
+    private final ProfesorRepository profesorRepository;
 
     private final AlumnoService alumnoService;
 
@@ -41,7 +42,7 @@ public class AdministradorController {
                                    ProfesorService profesorService,
                                    AlumnoService alumnoService,
                                    CategoriaService categoriaService,
-                                   CursoRepository cursoRepository) {
+                                   CursoRepository cursoRepository, ProfesorRepository profesorRepository) {
         this.passwordEncoder = passwordEncoder;
         this.usuarioRepository = usuarioRepository;
         this.profesorService = profesorService;
@@ -49,6 +50,7 @@ public class AdministradorController {
         this.alumnoService = alumnoService;
         this.categoriaService = categoriaService;
         this.cursoRepository = cursoRepository;
+        this.profesorRepository =profesorRepository;
 
     }
 
@@ -159,19 +161,44 @@ public class AdministradorController {
         return "detalle-curso";
     }
     @PostMapping("/admin/cursos/{id}")
-    public String actualizarCurso(@PathVariable("id") Long id, @ModelAttribute Curso cursoActualizado) {
+    public String actualizarCurso(@PathVariable("id") Long id, @ModelAttribute("curso") Curso cursoActualizado) {
         Curso curso = cursoService.obtenerCursoPorId(id);
 
-        curso.setNombre(cursoActualizado.getNombre());
-        curso.setCategoria(cursoActualizado.getCategoria());
-        curso.setTurno(cursoActualizado.getTurno());
-        curso.setProfesor(cursoActualizado.getProfesor());
+        Integer profesorId = cursoActualizado.getProfesor().getId().intValue();
 
-        cursoService.guardarCurso(curso);
 
+        if (profesorRepository.existsById(profesorId)) {
+            Profesor profesor = profesorService.obtenerProfesorPorId(profesorId);
+            curso.setProfesor(profesor);
+            curso.setNombre(cursoActualizado.getNombre());
+            curso.setCategoria(cursoActualizado.getCategoria());
+
+            cursoService.guardarCurso(curso);
+        } else {
+            return "redirect:/admin/cursos/" + id + "?error";
+        }
 
         return "redirect:/admin/cursos/" + id;
     }
+    @GetMapping("/admin/alumnos/{id}")
+    public String obtenerAlumnoPorId(@PathVariable("id") Long id, Model model) {
+        AlumnoDTO alumno = alumnoService.obtenerAlumnoPorId(id);
+        model.addAttribute("alumno", alumno);
+        return "detalle-alumno";
+    }
+    @PostMapping("/admin/alumnos/{id}")
+    public String actualizarAlumno(@PathVariable("id") Long id, @ModelAttribute("alumno") AlumnoDTO alumnoActualizado) {
+        AlumnoDTO alumnoDTO = alumnoService.obtenerAlumnoPorId(id);
+        alumnoDTO.setNombre(alumnoActualizado.getNombre());
+        alumnoDTO.setEmail(alumnoActualizado.getEmail());
+        alumnoDTO.setNacionalidad(alumnoActualizado.getNacionalidad());
+        alumnoDTO.setPaisResidencia(alumnoActualizado.getPaisResidencia());
+        alumnoDTO.setEdad(alumnoActualizado.getEdad());
+        alumnoDTO.setTelefono(alumnoActualizado.getTelefono());
+        alumnoService.actualizarAlumno(alumnoDTO);
+        return "redirect:/admin/alumnos/" + id;
+    }
+
 
 }
 

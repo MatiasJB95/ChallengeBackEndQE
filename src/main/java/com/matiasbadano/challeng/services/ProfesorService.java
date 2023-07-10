@@ -134,4 +134,12 @@ public class ProfesorService {
         return profesorDTO;
     }
 
+    public Profesor obtenerProfesorPorId(Integer id) {
+        Optional<Profesor> optionalProfesor = profesorRepository.findById(id);
+        if (optionalProfesor.isPresent()) {
+            return optionalProfesor.get();
+        } else {
+            throw new ProfesorNotFoundException("El profesor con ID " + id + " no existe.");
+        }
+    }
 }

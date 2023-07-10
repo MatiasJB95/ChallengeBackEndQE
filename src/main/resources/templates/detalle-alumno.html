@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalles del Alumno</title>
+</head>
+<body>
+<h1>Detalles del Alumno</h1>
+<ul>
+    <li>
+        <p>Nombre: <span th:text="${alumno.nombre}"></span></p>
+        <p>Email: <span th:text="${alumno.email}"></span></p>
+        <p>Nacionalidad: <span th:text="${alumno.nacionalidad}"></span></p>
+        <p>País de Residencia: <span th:text="${alumno.paisResidencia}"></span></p>
+        <p>Edad: <span th:text="${alumno.edad}"></span></p>
+        <p>Teléfono: <span th:text="${alumno.telefono}"></span></p>
+        <p>Cursos: </p>
+        <ul>
+            <li th:each="curso : ${alumno.cursos}">
+                <span th:text="${curso}"></span>
+            </li>
+        </ul>
+    </li>
+</ul>
+<title>Editar Alumno</title>
+<form th:action="@{'/admin/alumnos/' + ${alumno.id}}" method="post">
+<input type="hidden" name="_method" value="put">
+
+<label for="nombre">Nombre:</label>
+<input type="text" id="nombre" name="nombre" th:value="${alumno.nombre}" required><br>
+
+<label for="email">Email:</label>
+<input type="email" id="email" name="email" th:value="${alumno.email}" required><br>
+
+<label for="nacionalidad">Nacionalidad:</label>
+<input type="text" id="nacionalidad" name="nacionalidad" th:value="${alumno.nacionalidad}" required><br>
+
+<label for="paisResidencia">País de Residencia:</label>
+<input type="text" id="paisResidencia" name="paisResidencia" th:value="${alumno.paisResidencia}" required><br>
+
+<label for="edad">Edad:</label>
+<input type="number" id="edad" name="edad" th:value="${alumno.edad}" required><br>
+
+<label for="telefono">Teléfono:</label>
+<input type="tel" id="telefono" name="telefono" th:value="${alumno.telefono}" required><br>
+
+<button type="submit">Guardar</button>
+</form>
+</body>
+</html>

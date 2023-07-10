@@ -16,7 +16,7 @@ public class Curso {
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "profesor_id", insertable = false, updatable = false)
+    @JoinColumn(name = "profesor_id")
     private Profesor profesor;
 
 
