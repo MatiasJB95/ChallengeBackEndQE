@@ -17,7 +17,7 @@ import java.util.List;
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "alumno")
     @JoinColumn(name = "id")
     private InformacionAdicional informacionAdicional;
-   
+
 
 
     @OneToMany(mappedBy = "alumno", fetch = FetchType.LAZY)

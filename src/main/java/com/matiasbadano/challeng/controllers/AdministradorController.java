@@ -2,9 +2,11 @@ package com.matiasbadano.challeng.controllers;
 
 import com.matiasbadano.challeng.dto.AlumnoDTO;
 import com.matiasbadano.challeng.dto.CursoDTO;
+import com.matiasbadano.challeng.dto.InscripcionDTO;
 import com.matiasbadano.challeng.dto.ProfesorDTO;
 import com.matiasbadano.challeng.models.*;
 import com.matiasbadano.challeng.repository.CursoRepository;
+import com.matiasbadano.challeng.repository.ProfesorCursoRepository;
 import com.matiasbadano.challeng.repository.ProfesorRepository;
 import com.matiasbadano.challeng.repository.UsuarioRepository;
 import com.matiasbadano.challeng.services.*;
@@ -32,9 +34,14 @@ public class AdministradorController {
     private final AlumnoService alumnoService;
 
     private UserDetailsServiceImpl customUserDetailsService;
+    private ProfesorCursoService profesorCursoService;
     private final Logger logger = LoggerFactory.getLogger(HomeController.class);
+
     @Autowired
     private PasswordEncoder passwordEncoder;
+    private ProfesorCursoRepository profesorCursoRepository;
+    private InscripcionService inscripcionService;
+
 
     @Autowired
     public AdministradorController(PasswordEncoder passwordEncoder, UsuarioRepository usuarioRepository,
@@ -42,7 +49,10 @@ public class AdministradorController {
                                    ProfesorService profesorService,
                                    AlumnoService alumnoService,
                                    CategoriaService categoriaService,
-                                   CursoRepository cursoRepository, ProfesorRepository profesorRepository) {
+                                   CursoRepository cursoRepository,
+                                   ProfesorCursoRepository profesorCursoRepository,
+                                   ProfesorRepository profesorRepository, ProfesorCursoService profesorCursoService,
+                                   InscripcionService inscripcionService) {
         this.passwordEncoder = passwordEncoder;
         this.usuarioRepository = usuarioRepository;
         this.profesorService = profesorService;
@@ -51,6 +61,9 @@ public class AdministradorController {
         this.categoriaService = categoriaService;
         this.cursoRepository = cursoRepository;
         this.profesorRepository = profesorRepository;
+        this.profesorCursoService = profesorCursoService;
+        this.profesorCursoRepository=profesorCursoRepository;
+        this.inscripcionService = inscripcionService;
 
     }
 
@@ -167,7 +180,6 @@ public class AdministradorController {
 
         Integer profesorId = cursoActualizado.getProfesor().getId().intValue();
 
-
         if (profesorRepository.existsById(profesorId)) {
             Profesor profesor = profesorService.obtenerProfesorPorId(profesorId);
             curso.setProfesor(profesor);
@@ -175,6 +187,16 @@ public class AdministradorController {
             curso.setCategoria(cursoActualizado.getCategoria());
 
             cursoService.guardarCurso(curso);
+
+
+            Turno turno = curso.getTurno();
+
+            ProfesorCurso profesorCurso = new ProfesorCurso();
+            profesorCurso.setProfesor(profesor);
+            profesorCurso.setCurso(curso);
+            profesorCurso.setTurno(turno);
+
+            profesorCursoRepository.save(profesorCurso);
         } else {
             return "redirect:/admin/cursos/" + id + "?error";
         }
@@ -201,6 +223,20 @@ public class AdministradorController {
         alumnoService.actualizarAlumno(alumnoDTO);
         return "redirect:/admin/alumnos/" + id;
     }
+    @PostMapping("/admin/alumnos/{id}/inscribirse")
+    public String inscribirAlumnoACurso(@PathVariable("id") Long id, @RequestParam("cursoId") Long cursoId) {
+        AlumnoDTO alumnoDTO = alumnoService.obtenerAlumnoPorId(id);
+        Curso cursoDTO = cursoService.obtenerCursoPorId(cursoId);
+
+        InscripcionDTO inscripcionDTO = new InscripcionDTO();
+        inscripcionDTO.setAlumnoId((long) alumnoDTO.getId());
+        inscripcionDTO.setCursoId((long) cursoDTO.getId());
+
+        inscripcionService.guardarInscripcion(inscripcionDTO);
+
+        return "redirect:/admin/alumnos/" + id;
+    }
+
 
     @PostMapping("/admin/profesores/{id}")
     public String eliminarProfesor(@PathVariable("id") Integer id) {
