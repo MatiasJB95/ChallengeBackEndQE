@@ -3,9 +3,63 @@
 <head>
   <meta charset="UTF-8">
   <title>Profesores</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
 <h1>Lista de Profesores</h1>
+<button id="toggleFormBtn" onclick="toggleForm()">Crear Profesor</button>
+<div id="formContainer" class="hidden">
+    <form id="crearProfesorForm" th:action="@{/admin/profesores}" method="post">
+        <label for="nombre">Nombre Completo:</label>
+        <input type="text" id="nombre" name="nombre" required><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+
+        <label for="contrasena">Contraseña:</label>
+        <input type="password" id="contrasena" name="contrasena" required><br>
+
+        <label for="categoriaId">Especialidad:</label>
+        <select id="categoriaId" name="categoriaId" required>
+            <option value="1">Programación</option>
+            <option value="2">Economía</option>
+            <option value="3">Agronomía</option>
+            <option value="4">Medicina</option>
+            <option value="5">Idiomas</option>
+        </select><br>
+
+        <button type="submit">Crear Profesor</button>
+    </form>
+</div>
+
+<script>
+        function toggleForm() {
+            var formContainer = document.getElementById('formContainer');
+            var toggleFormBtn = document.getElementById('toggleFormBtn');
+
+            if (formContainer.classList.contains('hidden')) {
+                formContainer.classList.remove('hidden');
+                toggleFormBtn.textContent = 'X';
+            } else {
+                formContainer.classList.add('hidden');
+                toggleFormBtn.textContent = 'Crear Profesor';
+            }
+        }
+    </script>
+
+
+
+
+<div th:if="${mensaje}">
+    <p th:text="${mensaje}"></p>
+    <a href="/admin/profesores">
+        <button>Volver</button>
+    </a>
+</div>
 
 <ul>
   <li th:each="profesor : ${profesores}">

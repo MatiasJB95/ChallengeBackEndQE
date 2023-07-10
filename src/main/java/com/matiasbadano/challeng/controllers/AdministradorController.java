@@ -63,26 +63,17 @@ public class AdministradorController {
         return "admin";
     }
 
-    @PostMapping("/admin/crearUser")
-    public String crearUsuario(@RequestParam("nombre") String nombre, @RequestParam("email") String email, @RequestParam("contrasena") String contrasena, @RequestParam("rol") String rolValue, Model model) {
-        if (nombre.isEmpty() || email.isEmpty() || contrasena.isEmpty() || rolValue.isEmpty()) {
-            model.addAttribute("error", "Todos los campos son obligatorios");
-            return "/admin";
-        }
-        Usuario nuevoUsuario = new Usuario();
-        nuevoUsuario.setNombre(nombre);
-        nuevoUsuario.setEmail(email);
-        String contrasenaCifrada = passwordEncoder.encode(contrasena);
-        nuevoUsuario.setContrasena(contrasenaCifrada);
-        Rol rol = Rol.valueOf(rolValue);
-        nuevoUsuario.setRol(rol);
-        usuarioRepository.save(nuevoUsuario);
-        logger.info("Usuario creado: Nombre={}, Email={}, Rol={}", nombre, email, rolValue);
 
-        model.addAttribute("mensaje", "Usuario creado con éxito");
-        return "/admin";
-
+    @PostMapping("/admin/profesores")
+    public String crearProfesor(@RequestParam("nombre") String nombre,
+                                @RequestParam("email") String email,
+                                @RequestParam("contrasena") String contrasena,
+                                @RequestParam("categoriaId") int categoriaId, Model model) {
+        profesorService.crearProfesor(nombre, email, contrasena, categoriaId);
+        model.addAttribute("mensaje", "Profesor creado");
+        return "profesores";
     }
+
 
     @GetMapping("/admin/profesores")
     public String obtenerProfesores(Model model) {
