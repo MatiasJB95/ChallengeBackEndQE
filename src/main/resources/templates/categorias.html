@@ -31,6 +31,7 @@
     <button>Volver</button>
   </a>
 </div>
+
 <div th:each="categoria : ${categorias}">
   <p th:text="${categoria.nombre}"></p>
   <ul>
@@ -38,6 +39,11 @@
       <span th:text="${curso}"></span>
     </li>
   </ul>
+
+  <!-- Agregar botón para redirigir al ID de la categoría -->
+  <a th:href="@{'/admin/categorias/' + ${categoria.id}}">
+    <button>Ver Detalles</button>
+  </a>
 </div>
 
 <script>
@@ -48,6 +54,6 @@
       btn.classList.toggle('hidden');
       form.classList.toggle('hidden');
     }
-  </script>
+</script>
 </body>
 </html>

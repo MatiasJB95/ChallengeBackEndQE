@@ -5,7 +5,7 @@ import com.matiasbadano.challeng.dto.CategoriaDTO;
 import com.matiasbadano.challeng.dto.CursoDTO;
 import com.matiasbadano.challeng.dto.ProfesorDTO;
 import com.matiasbadano.challeng.models.Categoria;
-import com.matiasbadano.challeng.models.Rol;
+import com.matiasbadano.challeng.models.Curso;
 import com.matiasbadano.challeng.models.Usuario;
 import com.matiasbadano.challeng.repository.ProfesorRepository;
 import com.matiasbadano.challeng.repository.UsuarioRepository;
@@ -19,11 +19,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.thymeleaf.model.IModel;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class AdministradorController {
@@ -103,6 +105,30 @@ public class AdministradorController {
 
         model.addAttribute("mensaje", "Categoria Registrada: " + savedCategoria.getNombre());
         return "categorias";
+    }
+    @GetMapping("/admin/categorias/{id}")
+    public String obtenerCategoriaPorId(@PathVariable("id") Long id, Model model) {
+        CategoriaDTO categoria = categoriaService.obtenerCategoriaPorId(id);
+        Categoria categoriaEntity = categoriaService.obtenerCategoriaEntityPorId(id);
+
+        List<String> nombresCursos = categoriaEntity.getCursos().stream()
+                .map(Curso::getNombre)
+                .collect(Collectors.toList());
+
+        categoria.setNombresCursos(nombresCursos);
+
+        model.addAttribute("categoria", categoria);
+        return "detalle-categoria";
+    }
+    @PostMapping("/admin/categorias/{id}/eliminar")
+    public String eliminarCategoria(@PathVariable("id") Long id) {
+        categoriaService.eliminarCategoriaPorId(id);
+        return "redirect:/admin/categorias";
+    }
+    @PostMapping("/admin/categorias/{id}")
+    public String actualizarCategoria(@PathVariable("id") Long id, @RequestParam("nombre") String nombre) {
+        categoriaService.actualizarCategoria(id, nombre);
+        return "redirect:/admin/categorias/" + id;
     }
 
 }

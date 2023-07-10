@@ -1,5 +1,6 @@
 package com.matiasbadano.challeng.services;
 
+import com.matiasbadano.challeng.config.CategoriaNotFoundException;
 import com.matiasbadano.challeng.dto.CategoriaDTO;
 import com.matiasbadano.challeng.models.Categoria;
 import com.matiasbadano.challeng.repository.CategoriaRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoriaService {
@@ -44,5 +46,40 @@ public class CategoriaService {
         }
 
         return categoriaDTOs;
+    }
+    public CategoriaDTO obtenerCategoriaPorId(Long id) {
+        Categoria categoria = categoriaRepository.findById(id)
+                .orElseThrow(() -> new CategoriaNotFoundException("La categoría con ID " + id + " no existe."));
+
+        return convertToDTO(categoria);
+    }
+
+    private CategoriaDTO convertToDTO(Categoria categoria) {
+        CategoriaDTO categoriaDTO = new CategoriaDTO();
+        categoriaDTO.setId(categoria.getId());
+        categoriaDTO.setNombre(categoria.getNombre());
+
+
+        return categoriaDTO;
+    }
+
+    public Categoria obtenerCategoriaEntityPorId(Long id) {
+        Optional<Categoria> optionalCategoria = categoriaRepository.findById(id);
+        if (optionalCategoria.isPresent()) {
+            return optionalCategoria.get();
+        } else {
+            throw new CategoriaNotFoundException("La categoría con ID " + id + " no existe.");
+        }
+    }
+    public void eliminarCategoriaPorId(Long id) {
+        categoriaRepository.deleteById(id);
+
+    }
+
+    public void actualizarCategoria(Long id, String nombre) {
+        Categoria categoria = categoriaRepository.findById(id)
+                .orElseThrow(() -> new CategoriaNotFoundException("La categoría con ID " + id + " no existe."));
+        categoria.setNombre(nombre);
+        categoriaRepository.save(categoria);
     }
 }
