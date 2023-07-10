@@ -142,4 +142,8 @@ public class ProfesorService {
             throw new ProfesorNotFoundException("El profesor con ID " + id + " no existe.");
         }
     }
+
+    public void eliminarProfesor(Integer id) {
+        profesorRepository.deleteById(id);
+    }
 }

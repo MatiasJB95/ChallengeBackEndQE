@@ -50,7 +50,7 @@ public class AdministradorController {
         this.alumnoService = alumnoService;
         this.categoriaService = categoriaService;
         this.cursoRepository = cursoRepository;
-        this.profesorRepository =profesorRepository;
+        this.profesorRepository = profesorRepository;
 
     }
 
@@ -160,6 +160,7 @@ public class AdministradorController {
         model.addAttribute("nombreProfesor", nombreProfesor);
         return "detalle-curso";
     }
+
     @PostMapping("/admin/cursos/{id}")
     public String actualizarCurso(@PathVariable("id") Long id, @ModelAttribute("curso") Curso cursoActualizado) {
         Curso curso = cursoService.obtenerCursoPorId(id);
@@ -180,12 +181,14 @@ public class AdministradorController {
 
         return "redirect:/admin/cursos/" + id;
     }
+
     @GetMapping("/admin/alumnos/{id}")
     public String obtenerAlumnoPorId(@PathVariable("id") Long id, Model model) {
         AlumnoDTO alumno = alumnoService.obtenerAlumnoPorId(id);
         model.addAttribute("alumno", alumno);
         return "detalle-alumno";
     }
+
     @PostMapping("/admin/alumnos/{id}")
     public String actualizarAlumno(@PathVariable("id") Long id, @ModelAttribute("alumno") AlumnoDTO alumnoActualizado) {
         AlumnoDTO alumnoDTO = alumnoService.obtenerAlumnoPorId(id);
@@ -199,6 +202,23 @@ public class AdministradorController {
         return "redirect:/admin/alumnos/" + id;
     }
 
+    @PostMapping("/admin/profesores/{id}")
+    public String eliminarProfesor(@PathVariable("id") Integer id) {
+        profesorService.eliminarProfesor(id);
+        return "redirect:/admin/profesores";
+    }
+
+    @PostMapping("/admin/cursos/{id}/delete")
+    public String eliminarCurso(@PathVariable("id") Long id) {
+        cursoService.eliminarCurso(id);
+        return "redirect:/admin/cursos";
+    }
+
+    @PostMapping("/admin/alumnos/{id}/delete")
+    public String eliminarAlumno(@PathVariable("id") Integer id){
+        alumnoService.eliminarAlumno(id);
+        return "redirect:/admin/alumnos";
+    }
 
 }
 

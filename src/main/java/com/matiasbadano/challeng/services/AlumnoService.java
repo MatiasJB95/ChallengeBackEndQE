@@ -138,4 +138,8 @@ public class AlumnoService {
         informacionAdicionalRepository.save(informacionAdicional);
         alumnoRepository.save(alumnoExistente);
     }
+
+    public void eliminarAlumno(Integer id) {
+        alumnoRepository.deleteById(id);
+    }
 }

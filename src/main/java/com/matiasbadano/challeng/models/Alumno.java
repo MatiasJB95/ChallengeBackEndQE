@@ -14,9 +14,11 @@ import java.util.List;
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "alumno")
     @JoinColumn(name = "id")
     private InformacionAdicional informacionAdicional;
+   
+
 
     @OneToMany(mappedBy = "alumno", fetch = FetchType.LAZY)
     private List<Inscripcion> inscripciones;

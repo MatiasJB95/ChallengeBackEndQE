@@ -22,6 +22,10 @@
         </ul>
     </li>
 </ul>
+<form th:action="@{/admin/alumnos/{id}/delete(id=${alumno.id})}" method="post">
+    <input type="hidden" name="_method" value="delete">
+    <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este curso?')">Eliminar Curso</button>
+</form>
 <title>Editar Alumno</title>
 <form th:action="@{'/admin/alumnos/' + ${alumno.id}}" method="post">
 <input type="hidden" name="_method" value="put">

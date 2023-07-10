@@ -6,6 +6,13 @@
 </head>
 <body>
 <h1>Detalles del Profesor</h1>
+<div>
+    <form th:action="@{'/admin/profesores/' + ${profesor.id}}" method="post">
+        <input type="hidden" name="_method" value="delete">
+        <button type="submit">Eliminar</button>
+    </form>
+</div>
+
 
 <div th:if="${profesor}">
     <p>Nombre: <span th:text="${profesor.nombre}"></span></p>

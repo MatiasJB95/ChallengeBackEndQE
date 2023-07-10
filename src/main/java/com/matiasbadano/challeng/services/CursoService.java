@@ -69,5 +69,8 @@ public class CursoService {
         return cursoDTO;
     }
 
+    public void eliminarCurso(Long id) {
+        cursoRepository.deleteById(id);
+    }
 
 }

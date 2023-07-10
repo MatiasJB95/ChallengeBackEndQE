@@ -6,14 +6,20 @@
 </head>
 <body>
 <h1>Detalle del Curso</h1>
+
 <p>ID: <span th:text="${curso.id}"></span></p>
 <p>Nombre: <span th:text="${curso.nombre}"></span></p>
 <p>Categoría: <span th:text="${curso.categoria.nombre}"></span></p>
 <p>Turno: <span th:text="${curso.turno}"></span></p>
 <p>Profesor: <span th:text="${nombreProfesor}"></span></p>
+<form th:action="@{/admin/cursos/{id}/delete(id=${curso.id})}" method="post">
+    <input type="hidden" name="_method" value="delete">
+    <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este curso?')">Eliminar Curso</button>
+</form>
 
 <body>
 <h1>Editar Curso</h1>
+
 <form th:action="@{'/admin/cursos/' + ${curso.id}}" method="post">
     <input type="hidden" name="_method" value="put">
 
