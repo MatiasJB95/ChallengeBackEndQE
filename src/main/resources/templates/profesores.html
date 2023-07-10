@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Profesores</title>
+</head>
+<body>
+<h1>Lista de Profesores</h1>
+
+<ul>
+  <li th:each="profesor : ${profesores}">
+        <span>
+            <p>Nombre: <span th:text="${profesor.nombre}"></span></p>
+            <p>Email: <span th:text="${profesor.email}"></span></p>
+            <p>Categoría: <span th:text="${profesor.nombreCategoria}"></span></p>
+            <p>Cursos:</p>
+            <ul>
+                <li th:each="curso, index : ${profesor.nombresCursos}">
+                    <p>Nombre: <span th:text="${curso}"></span></p>
+                    <p>Turno: <span th:text="${profesor.turnosCursos[__${index.index}__]}"></span></p>
+                </li>
+            </ul>
+        </span>
+    <a th:href="@{'/admin/profesores/' + ${profesor.id}}">
+      <button>Ver más</button>
+    </a>
+  </li>
+</ul>
+
+</body>
+</html>

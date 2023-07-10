@@ -1,4 +1,4 @@
-package com.matiasbadano.challeng.services;
+package com.matiasbadano.challeng.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

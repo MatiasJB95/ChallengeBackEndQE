@@ -28,6 +28,8 @@ public class Usuario  implements UserDetails {
     @Enumerated(EnumType.STRING)
     @Column(name = "rol", length = 20)
     private Rol rol;
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Profesor profesor;
 
     public int getId() {
         return id;
