@@ -1,9 +1,9 @@
 # ChallengeBackEndQE (Back de sitio Universitario) -  Spring Boot
 
- El proyecto se enfoca en el desarrollo del sistema BackEnd para un sitio universitario.
+ Challenge se enfoca en el desarrollo del sistema BackEnd para un sitio universitario.
 
 ## Descripción
- El proyecto se enfoca en el desarrollo del sistema BackEnd para un sitio universitario. Se trabajaron en las siguientes áreas clave:
+ El Challenge se enfoca en el desarrollo del sistema BackEnd para un sitio universitario. Se trabajaron en las siguientes áreas clave:
 
 ### Autenticación y Autorización
 Se implementó un sistema de autenticación y autorización básica basada en credenciales. Esto significa que los usuarios deben iniciar sesión con sus credenciales para acceder a las funcionalidades del sistema. Se utilizaron técnicas de encriptación para almacenar las contraseñas de forma segura. Además, se definieron roles de usuario (administrador, profesor, alumno) para limitar el acceso a diferentes partes del sistema.
