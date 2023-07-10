@@ -42,6 +42,7 @@ public class Profesor {
     public void setCurso(Curso curso) {
         this.curso = curso;
     }
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "contenido_id")
     private Contenido contenido;
@@ -93,5 +94,13 @@ public class Profesor {
 
     public void setCursos(List<ProfesorCurso> cursos) {
         this.cursos = cursos;
+    }
+
+    public String getNombre() {
+        return usuario.getNombre();
+    }
+
+    public void setNombre(String nombre) {
+        usuario.setNombre(nombre);
     }
 }

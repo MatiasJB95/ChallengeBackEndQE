@@ -1,16 +1,15 @@
 package com.matiasbadano.challeng.controllers;
 
 import com.matiasbadano.challeng.dto.AlumnoDTO;
+import com.matiasbadano.challeng.dto.CategoriaDTO;
 import com.matiasbadano.challeng.dto.CursoDTO;
 import com.matiasbadano.challeng.dto.ProfesorDTO;
+import com.matiasbadano.challeng.models.Categoria;
 import com.matiasbadano.challeng.models.Rol;
 import com.matiasbadano.challeng.models.Usuario;
 import com.matiasbadano.challeng.repository.ProfesorRepository;
 import com.matiasbadano.challeng.repository.UsuarioRepository;
-import com.matiasbadano.challeng.services.AlumnoService;
-import com.matiasbadano.challeng.services.CursoService;
-import com.matiasbadano.challeng.services.ProfesorService;
-import com.matiasbadano.challeng.services.UserDetailsServiceImpl;
+import com.matiasbadano.challeng.services.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +27,7 @@ import java.util.List;
 @Controller
 public class AdministradorController {
     private UsuarioRepository usuarioRepository;
+    private CategoriaService categoriaService;
     private final ProfesorService profesorService;
     private final CursoService cursoService;
 
@@ -41,12 +41,14 @@ public class AdministradorController {
     @Autowired
     public AdministradorController(PasswordEncoder passwordEncoder, UsuarioRepository usuarioRepository,
                                    ProfesorRepository profesorRepositor, CursoService cursoService,
-                                   ProfesorService profesorService, AlumnoService alumnoService) {
+                                   ProfesorService profesorService, AlumnoService alumnoService,
+                                   CategoriaService categoriaService) {
         this.passwordEncoder = passwordEncoder;
         this.usuarioRepository = usuarioRepository;
         this.profesorService = profesorService;
         this.cursoService = cursoService;
         this.alumnoService = alumnoService;
+        this.categoriaService = categoriaService;
 
     }
 
@@ -63,26 +65,6 @@ public class AdministradorController {
         return "admin";
     }
 
-    @PostMapping("/admin/crearUser")
-    public String crearUsuario(@RequestParam("nombre") String nombre, @RequestParam("email") String email, @RequestParam("contrasena") String contrasena, @RequestParam("rol") String rolValue, Model model) {
-        if (nombre.isEmpty() || email.isEmpty() || contrasena.isEmpty() || rolValue.isEmpty()) {
-            model.addAttribute("error", "Todos los campos son obligatorios");
-            return "/admin";
-        }
-        Usuario nuevoUsuario = new Usuario();
-        nuevoUsuario.setNombre(nombre);
-        nuevoUsuario.setEmail(email);
-        String contrasenaCifrada = passwordEncoder.encode(contrasena);
-        nuevoUsuario.setContrasena(contrasenaCifrada);
-        Rol rol = Rol.valueOf(rolValue);
-        nuevoUsuario.setRol(rol);
-        usuarioRepository.save(nuevoUsuario);
-        logger.info("Usuario creado: Nombre={}, Email={}, Rol={}", nombre, email, rolValue);
-
-        model.addAttribute("mensaje", "Usuario creado con éxito");
-        return "/admin";
-
-    }
 
     @GetMapping("/admin/profesores")
     public String obtenerProfesores(Model model) {
@@ -104,6 +86,13 @@ public class AdministradorController {
         List<AlumnoDTO> alumnosDTO = alumnoService.getAllAlumnos();
         model.addAttribute("alumnos", alumnosDTO);
         return "alumnos";
+    }
+
+    @GetMapping("/admin/categorias")
+    public String obtenerCategorias(Model model) {
+        List<CategoriaDTO> categoriasDTO = categoriaService.obtenerNombresCategorias();
+        model.addAttribute("categorias", categoriasDTO);
+        return "categorias";
     }
 
 

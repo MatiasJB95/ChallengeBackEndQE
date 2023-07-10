@@ -19,13 +19,7 @@ public class Curso {
     @JoinColumn(name = "profesor_id")
     private Profesor profesor;
 
-    public Profesor getProfesor() {
-        return profesor;
-    }
 
-    public void setProfesor(Profesor profesor) {
-        this.profesor = profesor;
-    }
 
     @Enumerated(EnumType.STRING)
     @Column(name = "turno")
@@ -36,8 +30,6 @@ public class Curso {
     private Contenido contenido;
 
 
-
-    // Constructor, getters, and setters
 
     public int getId() {
         return id;
@@ -77,6 +69,13 @@ public class Curso {
 
     public void setContenido(Contenido contenido) {
         this.contenido = contenido;
+    }
+    public Profesor getProfesor() {
+        return profesor;
+    }
+
+    public void setProfesor(Profesor profesor) {
+        this.profesor = profesor;
     }
 
 }
