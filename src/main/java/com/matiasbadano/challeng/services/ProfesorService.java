@@ -1,8 +1,10 @@
 package com.matiasbadano.challeng.services;
 
+import com.matiasbadano.challeng.config.CursoNotFoundException;
 import com.matiasbadano.challeng.config.ProfesorNotFoundException;
 import com.matiasbadano.challeng.dto.ProfesorDTO;
 import com.matiasbadano.challeng.models.*;
+import com.matiasbadano.challeng.repository.CursoRepository;
 import com.matiasbadano.challeng.repository.ProfesorRepository;
 import com.matiasbadano.challeng.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +19,16 @@ import java.util.Optional;
 public class ProfesorService {
     private final ProfesorRepository profesorRepository;
     private final UsuarioRepository usuarioRepository;
+    private final CursoRepository cursoRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
 
     public ProfesorService(ProfesorRepository profesorRepository,
-                           UsuarioRepository usuarioRepository  ) {
+                           UsuarioRepository usuarioRepository, CursoRepository cursoRepository  ) {
         this.profesorRepository = profesorRepository;
         this.usuarioRepository = usuarioRepository;
+        this.cursoRepository = cursoRepository;
     }
 
     public void crearProfesor(String nombre, String email, String contrasena, int categoriaId) {
@@ -145,5 +149,17 @@ public class ProfesorService {
 
     public void eliminarProfesor(Integer id) {
         profesorRepository.deleteById(id);
+    }
+
+
+    public void removerProfesorDeCurso(Long profesorId, Long cursoId) {
+        Profesor profesor = profesorRepository.findById(profesorId.intValue())
+                .orElseThrow(() -> new ProfesorNotFoundException("Profesor no encontrado"));
+
+        Curso curso = cursoRepository.findById(cursoId)
+                .orElseThrow(() -> new CursoNotFoundException("Curso no encontrado"));
+
+        profesor.removerCurso(curso);
+        profesorRepository.save(profesor);
     }
 }

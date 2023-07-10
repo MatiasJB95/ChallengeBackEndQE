@@ -256,6 +256,12 @@ public class AdministradorController {
         return "redirect:/admin/alumnos";
     }
 
+    @PostMapping("/admin/profesores/{id}/remover-curso")
+    public String removerProfesorDeCurso(@PathVariable("id") Long profesorId, @RequestParam("cursoId") Long cursoId) {
+        profesorCursoService.removerProfesorDeCurso(profesorId, cursoId);
+        return "redirect:/admin/profesores";
+    }
+
 }
 
 

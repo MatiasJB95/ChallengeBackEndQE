@@ -27,7 +27,12 @@
         </li>
     </ul>
 
-    <div>
+    <form th:action="@{/admin/profesores/{id}/remover-curso(id=${profesor.id})}" method="post">
+        <label for="cursoId">ID del Curso:</label>
+        <input type="number" id="cursoId" name="cursoId" required><br>
+        <button type="submit">Eliminar Curso</button>
+    </form>
+</div> <div>
         <form th:action="@{'/admin/profesores/' + ${profesor.id} + '/actualizar'}" method="post">
             <input type="hidden" name="_method" value="PUT">
             <label for="nombre">Nombre:</label>

@@ -94,4 +94,8 @@ public class Profesor {
     public void setCursos(List<ProfesorCurso> cursos) {
         this.cursos = cursos;
     }
+
+    public void removerCurso(Curso curso) {
+        cursos.remove(curso);
+    }
 }
