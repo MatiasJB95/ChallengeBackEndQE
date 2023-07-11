@@ -47,4 +47,8 @@ public class InscripcionService {
     public List<InscripcionDTO> obtenerInscripcionesPorAlumnoId(Long alumnoId) {
         return inscripcionRepository.obtenerInscripcionesPorAlumnoId(alumnoId);
     }
+
+    public List<InscripcionDTO> obtenerInscripcionesPorCursoId(Long cursoId) {
+        
+    }
 }
