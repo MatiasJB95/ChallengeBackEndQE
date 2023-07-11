@@ -7,17 +7,28 @@
 <body>
 <h1>Resultados de Búsqueda de Alumnos</h1>
 
-<div th:if="${resultados.size() == 0}">
-  <p>No se encontraron resultados.</p>
-</div>
+<form th:action="@{/admin/alumnos/busqueda}" method="post">
+  <label for="nombre">Nombre:</label>
+  <input type="text" id="nombre" name="nombre" placeholder="Nombre">
+  <br>
+  <label for="cursoId">ID de Curso:</label>
+  <input type="text" id="cursoId" name="cursoId" placeholder="ID de Curso">
+  <br>
+  <button type="submit">Buscar</button>
+</form>
 
-<div th:if="${resultados.size() > 0}">
+<div th:if="${resultados}">
   <ul>
     <li th:each="alumno : ${resultados}">
-      <p>Nombre: <span th:text="${alumno.usuario.nombre}"></span></p>
-      <p>Email: <span th:text="${alumno.usuario.email}"></span></p>
+      <p>Nombre: <span th:text="${alumno.nombre}"></span></p>
+      <p>Email: <span th:text="${alumno.email}"></span></p>
     </li>
   </ul>
 </div>
+
+<div th:unless="${resultados}">
+  <p>No se encontraron resultados.</p>
+</div>
+
 </body>
 </html>

@@ -160,6 +160,18 @@ public class AlumnoService {
     public List<Alumno> buscarPorNombre(String nombre) {
   return alumnoRepository.findByUsuarioNombreContainingIgnoreCase(nombre);
     }
+    public AlumnoDTO convertirAlumnoAAlumnoDTO(Alumno alumno) {
+        AlumnoDTO alumnoDTO = new AlumnoDTO();
+        alumnoDTO.setId(alumno.getId());
+
+        Usuario usuario = alumno.getUsuario();
+        if (usuario != null) {
+            alumnoDTO.setNombre(usuario.getNombre());
+            alumnoDTO.setEmail(usuario.getEmail());
+        }
+
+        return alumnoDTO;
+    }
 
     public void eliminarAlumno(Integer id) {
         alumnoRepository.deleteById(id);
