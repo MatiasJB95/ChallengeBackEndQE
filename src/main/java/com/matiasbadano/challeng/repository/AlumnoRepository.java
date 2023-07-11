@@ -2,6 +2,7 @@ package com.matiasbadano.challeng.repository;
 
 import com.matiasbadano.challeng.dto.AlumnoDTO;
 import com.matiasbadano.challeng.models.Alumno;
+import com.matiasbadano.challeng.models.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -18,5 +19,6 @@ public interface AlumnoRepository extends JpaRepository<Alumno, Integer> {
     List<Alumno> findByUsuarioNombreContainingIgnoreCase(String nombre);
     Optional<Alumno> findByUsuarioId(Long usuarioId);
 
+    Alumno findByUsuario(Usuario Usuario);
 
 }

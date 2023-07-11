@@ -134,7 +134,23 @@ public class AlumnoService {
         informacionAdicional.setEdad(alumno.getEdad());
         informacionAdicional.setTelefono(alumno.getTelefono());
 
-        // Guardar la instancia de InformacionAdicional antes de guardar el Alumno
+        informacionAdicionalRepository.save(informacionAdicional);
+        alumnoRepository.save(alumnoExistente);
+    }
+    public void actualizarInformacionAdicional(AlumnoDTO alumno) {
+        Alumno alumnoExistente = alumnoRepository.findById(alumno.getId())
+                .orElseThrow(() -> new AlumnoNotFoundException("El alumno con ID " + alumno.getId() + " no existe."));
+        InformacionAdicional informacionAdicional = alumnoExistente.getInformacionAdicional();
+        if (informacionAdicional == null) {
+            informacionAdicional = new InformacionAdicional();
+            informacionAdicional.setAlumno(alumnoExistente);
+            alumnoExistente.setInformacionAdicional(informacionAdicional);
+        }
+        informacionAdicional.setNacionalidad(alumno.getNacionalidad());
+        informacionAdicional.setPaisResidencia(alumno.getPaisResidencia());
+        informacionAdicional.setEdad(alumno.getEdad());
+        informacionAdicional.setTelefono(alumno.getTelefono());
+
         informacionAdicionalRepository.save(informacionAdicional);
         alumnoRepository.save(alumnoExistente);
     }
@@ -148,4 +164,25 @@ public class AlumnoService {
     public void eliminarAlumno(Integer id) {
         alumnoRepository.deleteById(id);
     }
+    public AlumnoDTO obtenerAlumnoPorEmail(String email) {
+        Usuario usuario = usuarioRepository.findByEmail(email);
+        Alumno alumno = alumnoRepository.findByUsuario(usuario);
+
+        AlumnoDTO alumnoDTO = new AlumnoDTO();
+        alumnoDTO.setId(alumno.getId());
+        alumnoDTO.setNombre(alumno.getUsuario().getNombre());
+        alumnoDTO.setEmail(alumno.getUsuario().getEmail());
+
+        InformacionAdicional informacionAdicional = informacionAdicionalRepository.findByAlumnoId(alumno.getId());
+        if (informacionAdicional != null) {
+            alumnoDTO.setNacionalidad(informacionAdicional.getNacionalidad());
+            alumnoDTO.setPaisResidencia(informacionAdicional.getPaisResidencia());
+            alumnoDTO.setEdad(informacionAdicional.getEdad());
+            alumnoDTO.setTelefono(informacionAdicional.getTelefono());
+        }
+
+        return alumnoDTO;
+    }
+
+
 }

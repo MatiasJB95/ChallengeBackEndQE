@@ -42,7 +42,7 @@ public class SecurityConfigurations {
                .requestMatchers("/admin/**").hasRole("ADMINISTRADOR")
                .requestMatchers("/alumno/**").hasRole("ALUMNO")
                .requestMatchers("/profesor/**").hasRole("PROFESOR")
-               .requestMatchers("/dashboard/**").hasAnyRole("ADMINISTRADOR","PROFESOR","USUARIO")
+               .requestMatchers("/dashboard/**").hasAnyRole("ADMINISTRADOR","PROFESOR","ALUMNO")
                .anyRequest()
                .authenticated().and().formLogin().and().build();
     }
