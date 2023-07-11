@@ -10,5 +10,5 @@ import java.util.List;
 public interface InscripcionRepository extends JpaRepository<Inscripcion, Integer> {
 
     List<Inscripcion> findByAlumnoId(int alumnoId);
-
+    List<Inscripcion> findByCursoId(Long cursoId);
 }

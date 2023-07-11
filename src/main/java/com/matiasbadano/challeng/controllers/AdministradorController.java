@@ -1,9 +1,6 @@
 package com.matiasbadano.challeng.controllers;
 
-import com.matiasbadano.challeng.dto.AlumnoDTO;
-import com.matiasbadano.challeng.dto.CursoDTO;
-import com.matiasbadano.challeng.dto.InscripcionDTO;
-import com.matiasbadano.challeng.dto.ProfesorDTO;
+import com.matiasbadano.challeng.dto.*;
 import com.matiasbadano.challeng.models.*;
 import com.matiasbadano.challeng.repository.CursoRepository;
 import com.matiasbadano.challeng.repository.ProfesorCursoRepository;
@@ -22,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -31,6 +29,7 @@ public class AdministradorController {
     private final CursoService cursoService;
     private final CursoRepository cursoRepository;
     private final CategoriaService categoriaService;
+    private final UsuarioService usuarioService;
     private final ProfesorRepository profesorRepository;
 
     private final AlumnoService alumnoService;
@@ -54,7 +53,7 @@ public class AdministradorController {
                                    CursoRepository cursoRepository,
                                    ProfesorCursoRepository profesorCursoRepository,
                                    ProfesorRepository profesorRepository, ProfesorCursoService profesorCursoService,
-                                   InscripcionService inscripcionService) {
+                                   InscripcionService inscripcionService, UsuarioService usuarioService) {
         this.passwordEncoder = passwordEncoder;
         this.usuarioRepository = usuarioRepository;
         this.profesorService = profesorService;
@@ -66,6 +65,7 @@ public class AdministradorController {
         this.profesorCursoService = profesorCursoService;
         this.profesorCursoRepository=profesorCursoRepository;
         this.inscripcionService = inscripcionService;
+        this.usuarioService = usuarioService;
 
     }
 
@@ -282,27 +282,40 @@ public class AdministradorController {
 
         return "detalle-curso";
     }
-    @GetMapping("/admin/alumno/busqueda")
-    public String busquedaAlumno(@RequestParam(value = "nombre", required = false) String nombre,
-                                 @RequestParam(value = "cursoId", required = false) Long cursoId,
-                                 Model model) {
+    @GetMapping("/admin/alumnos/busqueda")
+    public String busquedaAlumno(Model model) {
 
-        List<Alumno> resultados = new ArrayList<>();
+        model.addAttribute("resultados", null);
+        return "busqueda-alumnos";
+    }
+    @PostMapping("/admin/alumnos/busqueda")
+    public String busquedafiltroAlumno(@RequestParam(value = "nombre", required = false) String nombre,
+                                       @RequestParam(value = "cursoId", required = false) Long cursoId,
+                                       Model model) {
+        List<AlumnoDTO> resultados = new ArrayList<>();
 
         if (nombre != null && !nombre.isEmpty()) {
-            resultados = alumnoService.buscarPorNombre(nombre);
+            List<Alumno> alumnosPorNombre = alumnoService.buscarPorNombre(nombre);
+            for (Alumno alumno : alumnosPorNombre) {
+                AlumnoDTO alumnoDTO = alumnoService.convertirAlumnoAAlumnoDTO(alumno);
+                resultados.add(alumnoDTO);
+            }
         }
 
         if (cursoId != null) {
-            List<Alumno> alumnosPorCurso = alumnoService.obtenerAlumnosPorCurso(cursoId);
-            resultados.addAll(alumnosPorCurso);
+            List<InscripcionDTO> inscripciones = inscripcionService.obtenerInscripcionesPorCursoId(cursoId);
+            for (InscripcionDTO inscripcion : inscripciones) {
+                AlumnoDTO alumnoDTO = alumnoService.obtenerAlumnoPorId(inscripcion.getAlumnoId());
+                if (alumnoDTO != null && alumnoDTO.getNombre().equalsIgnoreCase(nombre)) {
+                    resultados.add(alumnoDTO);
+                }
+            }
         }
 
         model.addAttribute("resultados", resultados);
 
         return "busqueda-alumnos";
     }
+
 }
-
-
 

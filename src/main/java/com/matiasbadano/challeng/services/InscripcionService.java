@@ -11,6 +11,9 @@ import com.matiasbadano.challeng.repository.CursoRepository;
 import com.matiasbadano.challeng.repository.InscripcionRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class InscripcionService {
 
@@ -42,4 +45,19 @@ public class InscripcionService {
     }
 
 
+    public List<InscripcionDTO> obtenerInscripcionesPorCursoId(Long cursoId) {
+        List<Inscripcion> inscripciones = inscripcionRepository.findByCursoId(cursoId);
+        List<InscripcionDTO> inscripcionesDTO = new ArrayList<>();
+
+        for (Inscripcion inscripcion : inscripciones) {
+            InscripcionDTO inscripcionDTO = new InscripcionDTO();
+            inscripcionDTO.setId((long) inscripcion.getId());
+            inscripcionDTO.setAlumnoId((long) inscripcion.getAlumno().getId());
+            inscripcionDTO.setCursoId((long) inscripcion.getCurso().getId());
+
+            inscripcionesDTO.add(inscripcionDTO);
+        }
+
+        return inscripcionesDTO;
+    }
 }

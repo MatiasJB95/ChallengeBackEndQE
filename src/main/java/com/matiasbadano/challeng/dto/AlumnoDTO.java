@@ -10,6 +10,7 @@ public class AlumnoDTO {
     private String paisResidencia;
     private int edad;
     private String telefono;
+    private UsuarioDTO usuario;
     private List<String> cursos;
     private String turno;
 
@@ -35,6 +36,13 @@ public class AlumnoDTO {
 
     public int getId() {
         return id;
+    }
+    public UsuarioDTO getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioDTO usuario) {
+        this.usuario = usuario;
     }
 
     public String getTurno() {
