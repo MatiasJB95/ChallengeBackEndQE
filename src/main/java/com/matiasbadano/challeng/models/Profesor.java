@@ -9,7 +9,7 @@ import java.util.List;
 public class Profesor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id")
@@ -42,6 +42,7 @@ public class Profesor {
     public void setCurso(Curso curso) {
         this.curso = curso;
     }
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "contenido_id")
     private Contenido contenido;
@@ -65,17 +66,17 @@ public class Profesor {
     public Profesor() {
     }
 
-    public Profesor(Integer id, Usuario usuario) {
+    public Profesor(int id, Usuario usuario) {
         this.id = id;
         this.usuario = usuario;
     }
 
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -95,7 +96,11 @@ public class Profesor {
         this.cursos = cursos;
     }
 
-    public void removerCurso(Curso curso) {
-        cursos.remove(curso);
+    public String getNombre() {
+        return usuario.getNombre();
+    }
+
+    public void setNombre(String nombre) {
+        usuario.setNombre(nombre);
     }
 }

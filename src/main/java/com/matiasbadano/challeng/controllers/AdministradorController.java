@@ -1,12 +1,12 @@
 package com.matiasbadano.challeng.controllers;
 
 import com.matiasbadano.challeng.dto.AlumnoDTO;
+import com.matiasbadano.challeng.dto.CategoriaDTO;
 import com.matiasbadano.challeng.dto.CursoDTO;
-import com.matiasbadano.challeng.dto.InscripcionDTO;
 import com.matiasbadano.challeng.dto.ProfesorDTO;
-import com.matiasbadano.challeng.models.*;
-import com.matiasbadano.challeng.repository.CursoRepository;
-import com.matiasbadano.challeng.repository.ProfesorCursoRepository;
+import com.matiasbadano.challeng.models.Categoria;
+import com.matiasbadano.challeng.models.Curso;
+import com.matiasbadano.challeng.models.Usuario;
 import com.matiasbadano.challeng.repository.ProfesorRepository;
 import com.matiasbadano.challeng.repository.UsuarioRepository;
 import com.matiasbadano.challeng.services.*;
@@ -18,54 +18,40 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.thymeleaf.model.IModel;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
 public class AdministradorController {
     private UsuarioRepository usuarioRepository;
+    private CategoriaService categoriaService;
     private final ProfesorService profesorService;
     private final CursoService cursoService;
-    private final CursoRepository cursoRepository;
-    private final CategoriaService categoriaService;
-    private final ProfesorRepository profesorRepository;
 
     private final AlumnoService alumnoService;
 
     private UserDetailsServiceImpl customUserDetailsService;
-    private ProfesorCursoService profesorCursoService;
     private final Logger logger = LoggerFactory.getLogger(HomeController.class);
-
     @Autowired
     private PasswordEncoder passwordEncoder;
-    private ProfesorCursoRepository profesorCursoRepository;
-    private InscripcionService inscripcionService;
-
 
     @Autowired
     public AdministradorController(PasswordEncoder passwordEncoder, UsuarioRepository usuarioRepository,
                                    ProfesorRepository profesorRepositor, CursoService cursoService,
-                                   ProfesorService profesorService,
-                                   AlumnoService alumnoService,
-                                   CategoriaService categoriaService,
-                                   CursoRepository cursoRepository,
-                                   ProfesorCursoRepository profesorCursoRepository,
-                                   ProfesorRepository profesorRepository, ProfesorCursoService profesorCursoService,
-                                   InscripcionService inscripcionService) {
+                                   ProfesorService profesorService, AlumnoService alumnoService,
+                                   CategoriaService categoriaService) {
         this.passwordEncoder = passwordEncoder;
         this.usuarioRepository = usuarioRepository;
         this.profesorService = profesorService;
         this.cursoService = cursoService;
         this.alumnoService = alumnoService;
         this.categoriaService = categoriaService;
-        this.cursoRepository = cursoRepository;
-        this.profesorRepository = profesorRepository;
-        this.profesorCursoService = profesorCursoService;
-        this.profesorCursoRepository=profesorCursoRepository;
-        this.inscripcionService = inscripcionService;
 
     }
 
@@ -80,17 +66,6 @@ public class AdministradorController {
         model.addAttribute("email", email);
 
         return "admin";
-    }
-
-
-    @PostMapping("/admin/profesores")
-    public String crearProfesor(@RequestParam("nombre") String nombre,
-                                @RequestParam("email") String email,
-                                @RequestParam("contrasena") String contrasena,
-                                @RequestParam("categoriaId") int categoriaId, Model model) {
-        profesorService.crearProfesor(nombre, email, contrasena, categoriaId);
-        model.addAttribute("mensaje", "Profesor creado");
-        return "profesores";
     }
 
 
@@ -116,193 +91,46 @@ public class AdministradorController {
         return "alumnos";
     }
 
-    @PostMapping("/admin/cursos/crear")
-    public String crearCurso(@RequestParam("nombre") String nombre,
-                             @RequestParam("categoriaId") int categoriaId,
-                             @RequestParam("turno") Turno turno, Model model) {
-        Curso curso = new Curso();
-        curso.setNombre(nombre);
-
+    @GetMapping("/admin/categorias")
+    public String obtenerCategorias(Model model) {
+        List<CategoriaDTO> categoriasDTO = categoriaService.obtenerNombresCategorias();
+        model.addAttribute("categorias", categoriasDTO);
+        return "categorias";
+    }
+    @PostMapping("/admin/categorias")
+    public String registrarCategoria(@RequestParam("nombre") String nombre, Model model) {
         Categoria categoria = new Categoria();
-        categoria.setId(categoriaId);
-        curso.setCategoria(categoria);
+        categoria.setNombre(nombre);
+        Categoria savedCategoria = categoriaService.guardarCategoria(categoria);
 
-        curso.setTurno(turno);
+        model.addAttribute("mensaje", "Categoria Registrada: " + savedCategoria.getNombre());
+        return "categorias";
+    }
+    @GetMapping("/admin/categorias/{id}")
+    public String obtenerCategoriaPorId(@PathVariable("id") Long id, Model model) {
+        CategoriaDTO categoria = categoriaService.obtenerCategoriaPorId(id);
+        Categoria categoriaEntity = categoriaService.obtenerCategoriaEntityPorId(id);
 
-        cursoRepository.save(curso);
-        model.addAttribute("mensaje", "Curso creado con éxito");
-        return "redirect:/admin/cursos";
+        List<String> nombresCursos = categoriaEntity.getCursos().stream()
+                .map(Curso::getNombre)
+                .collect(Collectors.toList());
+
+        categoria.setNombresCursos(nombresCursos);
+
+        model.addAttribute("categoria", categoria);
+        return "detalle-categoria";
+    }
+    @PostMapping("/admin/categorias/{id}/eliminar")
+    public String eliminarCategoria(@PathVariable("id") Long id) {
+        categoriaService.eliminarCategoriaPorId(id);
+        return "redirect:/admin/categorias";
+    }
+    @PostMapping("/admin/categorias/{id}")
+    public String actualizarCategoria(@PathVariable("id") Long id, @RequestParam("nombre") String nombre) {
+        categoriaService.actualizarCategoria(id, nombre);
+        return "redirect:/admin/categorias/" + id;
     }
 
-    @PostMapping("/admin/alumnos")
-    public String crearProfesor(@RequestParam("nombre") String nombre,
-                                @RequestParam("email") String email,
-                                @RequestParam("contrasena") String contrasena, Model model) {
-        alumnoService.crearAlumno(nombre, email, contrasena);
-        model.addAttribute("mensaje", "Alumno creado");
-        return "alumnos";
-    }
-
-    @GetMapping("/admin/profesores/{profesorId}")
-    public String obtenerProfesorPorId(@PathVariable("profesorId") Long profesorId, Model model) {
-        ProfesorDTO profesorDTO = profesorService.obtenerProfesorDTOPorId(profesorId);
-        model.addAttribute("profesor", profesorDTO);
-        return "detalles-profesor";
-
-    }
-
-    @PostMapping("/admin/profesores/{profesorId}/actualizar")
-    public String actualizarProfesor(@PathVariable("profesorId") Integer profesorId, @ModelAttribute ProfesorDTO profesorDTO, @RequestParam("categoriaId") int categoriaId) {
-        profesorService.actualizarProfesor(profesorId, profesorDTO, categoriaId);
-        return "redirect:/admin/profesores";
-    }
-
-
-    @GetMapping("/admin/cursos/{id}")
-    public String obtenerCursoPorId(@PathVariable("id") Long id, Model model) {
-        Curso curso = cursoService.obtenerCursoPorId(id);
-        List<Categoria> categorias = categoriaService.obtenerTodasLasCategorias();
-        List<Profesor> profesores = profesorService.obtenerTodosLosProfesores();
-        Profesor profesor = curso.getProfesor();
-        String nombreProfesor = null;
-
-        if (profesor != null) {
-            Usuario usuario = profesor.getUsuario();
-            nombreProfesor = usuario.getNombre();
-        }
-
-        model.addAttribute("curso", curso);
-        model.addAttribute("nombreProfesor", nombreProfesor);
-        return "detalle-curso";
-    }
-
-    @PostMapping("/admin/cursos/{id}")
-    public String actualizarCurso(@PathVariable("id") Long id, @ModelAttribute("curso") Curso cursoActualizado) {
-        Curso curso = cursoService.obtenerCursoPorId(id);
-
-        Integer profesorId = cursoActualizado.getProfesor().getId().intValue();
-
-        if (profesorRepository.existsById(profesorId)) {
-            Profesor profesor = profesorService.obtenerProfesorPorId(profesorId);
-            curso.setProfesor(profesor);
-            curso.setNombre(cursoActualizado.getNombre());
-            curso.setCategoria(cursoActualizado.getCategoria());
-
-            cursoService.guardarCurso(curso);
-
-
-            Turno turno = curso.getTurno();
-
-            ProfesorCurso profesorCurso = new ProfesorCurso();
-            profesorCurso.setProfesor(profesor);
-            profesorCurso.setCurso(curso);
-            profesorCurso.setTurno(turno);
-
-            profesorCursoRepository.save(profesorCurso);
-        } else {
-            return "redirect:/admin/cursos/" + id + "?error";
-        }
-
-        return "redirect:/admin/cursos/" + id;
-    }
-
-    @GetMapping("/admin/alumnos/{id}")
-    public String obtenerAlumnoPorId(@PathVariable("id") Long id, Model model) {
-        AlumnoDTO alumno = alumnoService.obtenerAlumnoPorId(id);
-        model.addAttribute("alumno", alumno);
-        return "detalle-alumno";
-    }
-
-    @PostMapping("/admin/alumnos/{id}")
-    public String actualizarAlumno(@PathVariable("id") Long id, @ModelAttribute("alumno") AlumnoDTO alumnoActualizado) {
-        AlumnoDTO alumnoDTO = alumnoService.obtenerAlumnoPorId(id);
-        alumnoDTO.setNombre(alumnoActualizado.getNombre());
-        alumnoDTO.setEmail(alumnoActualizado.getEmail());
-        alumnoDTO.setNacionalidad(alumnoActualizado.getNacionalidad());
-        alumnoDTO.setPaisResidencia(alumnoActualizado.getPaisResidencia());
-        alumnoDTO.setEdad(alumnoActualizado.getEdad());
-        alumnoDTO.setTelefono(alumnoActualizado.getTelefono());
-        alumnoService.actualizarAlumno(alumnoDTO);
-        return "redirect:/admin/alumnos/" + id;
-    }
-    @PostMapping("/admin/alumnos/{id}/inscribirse")
-    public String inscribirAlumnoACurso(@PathVariable("id") Long id, @RequestParam("cursoId") Long cursoId) {
-        AlumnoDTO alumnoDTO = alumnoService.obtenerAlumnoPorId(id);
-        Curso cursoDTO = cursoService.obtenerCursoPorId(cursoId);
-
-        InscripcionDTO inscripcionDTO = new InscripcionDTO();
-        inscripcionDTO.setAlumnoId((long) alumnoDTO.getId());
-        inscripcionDTO.setCursoId((long) cursoDTO.getId());
-
-        inscripcionService.guardarInscripcion(inscripcionDTO);
-
-        return "redirect:/admin/alumnos/" + id;
-    }
-
-
-    @PostMapping("/admin/profesores/{id}")
-    public String eliminarProfesor(@PathVariable("id") Integer id) {
-        profesorService.eliminarProfesor(id);
-        return "redirect:/admin/profesores";
-    }
-
-    @PostMapping("/admin/cursos/{id}/delete")
-    public String eliminarCurso(@PathVariable("id") Long id) {
-        cursoService.eliminarCurso(id);
-        return "redirect:/admin/cursos";
-    }
-
-    @PostMapping("/admin/alumnos/{id}/delete")
-    public String eliminarAlumno(@PathVariable("id") Integer id){
-        alumnoService.eliminarAlumno(id);
-        return "redirect:/admin/alumnos";
-    }
-
-    @PostMapping("/admin/profesores/{id}/remover-curso")
-    public String removerProfesorDeCurso(@PathVariable("id") Long profesorId, @RequestParam("cursoId") Long cursoId) {
-        profesorCursoService.removerProfesorDeCurso(profesorId, cursoId);
-        return "redirect:/admin/profesores";
-    }
-
-    @GetMapping("/admin/cursos/{id}/busqueda")
-    public String obtenerDetalleCurso(@PathVariable("id") Long id, @RequestParam(value = "letra", required = false) String letra, Model model) {
-
-        Curso curso = cursoService.obtenerCursoPorId(id);
-
-        List<Alumno> alumnos = alumnoService.obtenerAlumnosPorCurso(id);
-
-        if (letra != null && !letra.isEmpty()) {
-            alumnos = alumnos.stream()
-                    .filter(alumno -> alumno.getUsuario().getNombre().toLowerCase().contains(letra.toLowerCase()))
-                    .collect(Collectors.toList());
-        }
-
-        model.addAttribute("curso", curso);
-        model.addAttribute("alumnos", alumnos);
-
-        return "detalle-curso";
-    }
-    @GetMapping("/admin/alumno/busqueda")
-    public String busquedaAlumno(@RequestParam(value = "nombre", required = false) String nombre,
-                                 @RequestParam(value = "cursoId", required = false) Long cursoId,
-                                 Model model) {
-
-        List<Alumno> resultados = new ArrayList<>();
-
-        if (nombre != null && !nombre.isEmpty()) {
-            resultados = alumnoService.buscarPorNombre(nombre);
-        }
-
-        if (cursoId != null) {
-            List<Alumno> alumnosPorCurso = alumnoService.obtenerAlumnosPorCurso(cursoId);
-            resultados.addAll(alumnosPorCurso);
-        }
-
-        model.addAttribute("resultados", resultados);
-
-        return "busqueda-alumnos";
-    }
 }
-
 
 
