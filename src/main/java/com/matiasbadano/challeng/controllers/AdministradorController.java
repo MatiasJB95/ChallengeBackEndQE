@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -261,6 +262,42 @@ public class AdministradorController {
         profesorCursoService.removerProfesorDeCurso(profesorId, cursoId);
         return "redirect:/admin/profesores";
     }
+    @GetMapping("/admin/alumnos/busqueda")
+    public String busquedaAlumno(Model model) {
+
+        model.addAttribute("resultados", null);
+        return "busqueda-alumnos";
+    }
+    @PostMapping("/admin/alumnos/busqueda")
+    public String busquedafiltroAlumno(@RequestParam(value = "nombre", required = false) String nombre,
+                                       @RequestParam(value = "cursoId", required = false) Long cursoId,
+                                       Model model) {
+        List<AlumnoDTO> resultados = new ArrayList<>();
+
+        if (nombre != null && !nombre.isEmpty()) {
+            List<Alumno> alumnosPorNombre = alumnoService.buscarPorNombre(nombre);
+            for (Alumno alumno : alumnosPorNombre) {
+                AlumnoDTO alumnoDTO = alumnoService.convertirAlumnoAAlumnoDTO(alumno);
+                resultados.add(alumnoDTO);
+            }
+        }
+
+        if (cursoId != null) {
+            List<InscripcionDTO> inscripciones = inscripcionService.obtenerInscripcionesPorCursoId(cursoId);
+            for (InscripcionDTO inscripcion : inscripciones) {
+                AlumnoDTO alumnoDTO = alumnoService.obtenerAlumnoPorId(inscripcion.getAlumnoId());
+                if (alumnoDTO != null && alumnoDTO.getNombre().equalsIgnoreCase(nombre)) {
+                    resultados.add(alumnoDTO);
+                }
+            }
+        }
+
+        model.addAttribute("resultados", resultados);
+
+        return "busqueda-alumnos";
+    }
+
+}
 
 }
 
