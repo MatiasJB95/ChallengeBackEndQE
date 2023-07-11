@@ -11,6 +11,8 @@ import com.matiasbadano.challeng.repository.CursoRepository;
 import com.matiasbadano.challeng.repository.InscripcionRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class InscripcionService {
 
@@ -42,4 +44,7 @@ public class InscripcionService {
     }
 
 
+    public List<InscripcionDTO> obtenerInscripcionesPorAlumnoId(Long alumnoId) {
+        return inscripcionRepository.obtenerInscripcionesPorAlumnoId(alumnoId);
+    }
 }

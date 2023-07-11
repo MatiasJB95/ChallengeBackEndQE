@@ -84,19 +84,18 @@ public class AlumnoController {
 
     @PostMapping("/alumno/cursos/{id}")
     public String Inscripcion(@PathVariable("id") Long id, Authentication authentication) {
-        String email = authentication.getName();
-        AlumnoDTO alumnoDTO = alumnoService.obtenerAlumnoPorEmail(email);
+
+            String email = authentication.getName();
+            AlumnoDTO alumnoDTO = alumnoService.obtenerAlumnoPorEmail(email);
 
 
-        InscripcionDTO inscripcionDTO = new InscripcionDTO();
-        inscripcionDTO.setAlumnoId((long) alumnoDTO.getId());
-        inscripcionDTO.setCursoId(id);
+            InscripcionDTO inscripcionDTO = new InscripcionDTO();
+            inscripcionDTO.setAlumnoId((long) alumnoDTO.getId());
+            inscripcionDTO.setCursoId(id);
 
-        inscripcionService.guardarInscripcion(inscripcionDTO);
-
-    return "redirect:/alumno";
-    }
-
+            inscripcionService.guardarInscripcion(inscripcionDTO);
+        return "redirect:/alumno";
+        }
 }
 
 
