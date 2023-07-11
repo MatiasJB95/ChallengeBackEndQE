@@ -122,7 +122,7 @@ public class AdministradorController {
         curso.setNombre(nombre);
 
         Categoria categoria = new Categoria();
-        categoria.setId(categoriaId);
+        categoria.setId((long) categoriaId);
         curso.setCategoria(categoria);
 
         curso.setTurno(turno);
