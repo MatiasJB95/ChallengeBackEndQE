@@ -13,24 +13,20 @@ public class Curso {
     private String nombre;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "categoria_id", insertable = false, updatable = false)
+    @JoinColumn(name = "categoria_id")
     private Categoria categoria;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profesor_id")
     private Profesor profesor;
 
-    public Long getCategoriaId() {
-        return categoriaId;
+
+    public Profesor getProfesor() {
+        return profesor;
     }
 
-    public void setCategoriaId(Long categoriaId) {
-        this.categoriaId = categoriaId;
+    public void setProfesor(Profesor profesor) {
+        this.profesor = profesor;
     }
-
-    @Column(name = "categoria_id")
-    private Long categoriaId;
-
-
 
     @Enumerated(EnumType.STRING)
     @Column(name = "turno")
@@ -39,6 +35,7 @@ public class Curso {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "contenido_id")
     private Contenido contenido;
+
 
 
 
@@ -81,12 +78,7 @@ public class Curso {
     public void setContenido(Contenido contenido) {
         this.contenido = contenido;
     }
-    public Profesor getProfesor() {
-        return profesor;
-    }
 
-    public void setProfesor(Profesor profesor) {
-        this.profesor = profesor;
+    public void setCategoriaId(Long categoriaId) {
     }
-
 }
