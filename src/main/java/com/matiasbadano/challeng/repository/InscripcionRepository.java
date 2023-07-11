@@ -23,5 +23,6 @@ public interface InscripcionRepository extends JpaRepository<Inscripcion, Long> 
 
     @Query("SELECT i FROM Inscripcion i WHERE i.alumno = :alumno")
     List<InscripcionDTO> obtenerInscripcionesPorAlumnoId(Long alumno);
+    List<Inscripcion> findByCursoId(Long cursoId);
 
 }
