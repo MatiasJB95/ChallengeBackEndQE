@@ -23,17 +23,18 @@ public class AlumnoService {
     private final InformacionAdicionalRepository informacionAdicionalRepository;
     private final InscripcionRepository inscripcionRepository;
     private final UsuarioRepository usuarioRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
+    private PasswordEncoder passwordEncoder;
+@Autowired
     public AlumnoService(AlumnoRepository alumnoRepository,
                          InformacionAdicionalRepository informacionAdicionalRepository,
                          InscripcionRepository inscripcionRepository,
-                         UsuarioRepository usuarioRepository) {
+                         UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
         this.alumnoRepository = alumnoRepository;
         this.informacionAdicionalRepository =informacionAdicionalRepository;
         this.inscripcionRepository = inscripcionRepository;
         this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public void crearAlumno(String nombre, String email, String contrasena) {
