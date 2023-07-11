@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Detalle de Categoría</title>
+</head>
+<body>
+<h1>Detalle de Categoría</h1>
+<form th:action="@{'/admin/categorias/' + ${categoria.id}}" method="post">
+  <input type="hidden" name="_method" value="put">
+  <label for="nombre">Nombre:</label>
+  <input type="text" id="nombre" name="nombre" th:value="${categoria.nombre}" required>
+  <button type="submit">Guardar</button>
+</form>
+
+<p>ID: <span th:text="${categoria.id}"></span></p>
+<p>Nombre: <span th:text="${categoria.nombre}"></span></p>
+
+<h2>Cursos:</h2>
+<ul>
+  <li th:each="curso : ${categoria.nombresCursos}">
+    <span th:text="${curso}"></span>
+  </li>
+</ul>
+<form th:action="@{'/admin/categorias/' + ${categoria.id} + '/eliminar'}" method="post">
+  <input type="hidden" name="_method" value="delete">
+  <button type="submit" onclick="return confirm('¿Estás seguro de eliminar esta categoría?')">Eliminar</button>
+</form>
+<a href="/admin/categorias">
+  <button>Volver</button>
+</a>
+</body>
+</html>
