@@ -46,11 +46,11 @@ public class CursoService {
                 .collect(Collectors.toList());
     }
 
-    private CursoDTO convertToDTO(Curso curso) {
+    public CursoDTO convertToDTO(Curso curso) {
         CursoDTO cursoDTO = new CursoDTO();
         cursoDTO.setId(curso.getId());
         cursoDTO.setNombre(curso.getNombre());
-        cursoDTO.setTurno(curso.getTurno().name());
+        cursoDTO.setTurno(Turno.valueOf(curso.getTurno().name()));
 
         Profesor profesor = curso.getProfesor();
         if (profesor != null) {

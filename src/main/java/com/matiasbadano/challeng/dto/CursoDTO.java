@@ -6,7 +6,7 @@
     public class CursoDTO {
         private int id;
         private String nombre;
-        private String turno;
+        private Turno turno;
         private String contenido;
         private String nombreProfesor;
 
@@ -14,11 +14,10 @@
 
         }
 
-        public CursoDTO(int id,String nombre, Turno turno, Contenido contenido, String nombreProfesor) {
+        public CursoDTO(int id,String nombre, Turno turno, String nombreProfesor) {
            this.id = id;
             this.nombre = nombre;
-            this.turno = turno.name();
-            this.contenido = contenido.getTitulo();
+            this.turno = Turno.valueOf(turno.name());
             this.nombreProfesor = nombreProfesor;
         }
 
@@ -39,20 +38,12 @@
             this.nombre = nombre;
         }
 
-        public String getTurno() {
+        public Turno getTurno() {
             return turno;
         }
 
-        public void setTurno(String turno) {
+        public void setTurno(Turno turno) {
             this.turno = turno;
-        }
-
-        public String getContenido() {
-            return contenido;
-        }
-
-        public void setContenido(String contenido) {
-            this.contenido = contenido;
         }
 
         public String getNombreProfesor() {

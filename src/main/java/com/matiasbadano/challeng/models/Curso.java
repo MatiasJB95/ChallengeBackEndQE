@@ -19,6 +19,10 @@ public class Curso {
     @JoinColumn(name = "profesor_id")
     private Profesor profesor;
 
+    public Curso() {
+
+    }
+
 
     public Profesor getProfesor() {
         return profesor;
@@ -32,9 +36,13 @@ public class Curso {
     @Column(name = "turno")
     private Turno turno;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "contenido_id")
-    private Contenido contenido;
+
+
+    public Curso(long id, String nombre, String turno) {
+        this.id = (int) id;
+        this.nombre = nombre;
+        this.turno = Turno.valueOf(turno);
+    }
 
 
 
@@ -69,14 +77,6 @@ public class Curso {
 
     public void setTurno(Turno turno) {
         this.turno = turno;
-    }
-
-    public Contenido getContenido() {
-        return contenido;
-    }
-
-    public void setContenido(Contenido contenido) {
-        this.contenido = contenido;
     }
 
     public void setCategoriaId(Long categoriaId) {

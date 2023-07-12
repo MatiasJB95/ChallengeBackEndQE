@@ -1,5 +1,9 @@
 import com.matiasbadano.challeng.config.CursoNotFoundException;
+import com.matiasbadano.challeng.dto.CursoDTO;
 import com.matiasbadano.challeng.models.Curso;
+import com.matiasbadano.challeng.models.Profesor;
+import com.matiasbadano.challeng.models.Usuario;
+import com.matiasbadano.challeng.models.Turno;
 import com.matiasbadano.challeng.repository.CursoRepository;
 import com.matiasbadano.challeng.services.CursoService;
 import org.junit.jupiter.api.BeforeEach;
@@ -7,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
@@ -61,6 +67,56 @@ public class CursoServiceTest {
 
         verify(cursoRepository, times(1)).findById(cursoId);
     }
+    @Test
+    public void testGetAllCursos() {
+        Curso curso1 = new Curso(1L, "Curso 1", "Mañana");
+        Curso curso2 = new Curso(2L, "Curso 2", "Tarde");
+        List<Curso> cursosMock = Arrays.asList(curso1, curso2);
+
+        when(cursoRepository.findAll()).thenReturn(cursosMock);
+
+        List<CursoDTO> resultado = cursoService.getAllCursos();
+
+        assertEquals(2, resultado.size());
+
+        CursoDTO cursoDTO1 = resultado.get(0);
+        assertEquals(curso1.getNombre(), cursoDTO1.getNombre());
+        assertEquals(curso1.getTurno(), cursoDTO1.getTurno());
+
+
+        CursoDTO cursoDTO2 = resultado.get(1);
+        assertEquals(curso2.getNombre(), cursoDTO2.getNombre());
+        assertEquals(curso2.getTurno(), cursoDTO2.getTurno());
+
+    }
+    @Test
+    public void testConvertToDTO() {
+        Curso curso = new Curso();
+        curso.setId(1);
+        curso.setNombre("Curso 1");
+        curso.setTurno(Turno.Mañana);
+        Profesor profesor = new Profesor();
+        Usuario usuario = new Usuario();
+        usuario.setNombre("Pepe Sand");
+        profesor.setUsuario(usuario);
+        curso.setProfesor(profesor);
+
+        CursoDTO cursoDTO = cursoService.convertToDTO(curso);
+
+        assertNotNull(cursoDTO);
+        assertEquals(curso.getId(), cursoDTO.getId());
+        assertEquals(curso.getNombre(), cursoDTO.getNombre());
+        assertEquals(Turno.Mañana, cursoDTO.getTurno());
+        assertEquals("Pepe Sand", cursoDTO.getNombreProfesor());
+    }
+    @Test
+    public void testEliminarCurso() {
+        Long id = 1L;
+        cursoService.eliminarCurso(id);
+        verify(cursoRepository, times(1)).deleteById(id);
+    }
 }
+
+
 
 
