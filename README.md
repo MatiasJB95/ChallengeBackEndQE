@@ -29,7 +29,7 @@ Se implementaron operaciones CRUD completas para las entidades principales del s
 ### MVC (Modelo-Vista-Controlador)
 Se siguió el patrón de diseño Modelo-Vista-Controlador (MVC) para organizar y estructurar el código.
 
-## Test Unitarios
+### Test Unitarios
 Se realizaron pruebas unitarias para garantizar el correcto funcionamiento de los métodos individuales del código. Se probaron los métodos en los servicios que manejan los repositorios para asegurar que los datos se manejan adecuadamente.
 
 ## Tecnologías utilizadas
