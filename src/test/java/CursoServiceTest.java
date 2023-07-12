@@ -1,9 +1,6 @@
 import com.matiasbadano.challeng.config.CursoNotFoundException;
 import com.matiasbadano.challeng.dto.CursoDTO;
-import com.matiasbadano.challeng.models.Curso;
-import com.matiasbadano.challeng.models.Profesor;
-import com.matiasbadano.challeng.models.Usuario;
-import com.matiasbadano.challeng.models.Turno;
+import com.matiasbadano.challeng.models.*;
 import com.matiasbadano.challeng.repository.CursoRepository;
 import com.matiasbadano.challeng.services.CursoService;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -69,8 +67,19 @@ public class CursoServiceTest {
     }
     @Test
     public void testGetAllCursos() {
-        Curso curso1 = new Curso(1L, "Curso 1", "Mañana");
-        Curso curso2 = new Curso(2L, "Curso 2", "Tarde");
+        Curso curso1 = new Curso();
+        curso1.setId(1);
+        curso1.setNombre("Curso 1");
+        curso1.setTurno(Turno.Mañana);
+        Categoria categoria1 = new Categoria(1L, "Categoria 1", new ArrayList<>());
+        curso1.setCategoria(categoria1);
+
+        Curso curso2 = new Curso();
+        curso2.setId(2);
+        curso2.setNombre("Curso 2");
+        curso2.setTurno(Turno.Tarde);
+        curso2.setCategoria(categoria1);
+
         List<Curso> cursosMock = Arrays.asList(curso1, curso2);
 
         when(cursoRepository.findAll()).thenReturn(cursosMock);

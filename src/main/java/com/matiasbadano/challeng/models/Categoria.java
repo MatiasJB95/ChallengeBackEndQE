@@ -26,6 +26,11 @@ public class Categoria {
 
     }
 
+    public Categoria(int i) {
+    }
+
+    public Categoria(long l, String s) {
+    }
 
 
     public Profesor getProfesor() {

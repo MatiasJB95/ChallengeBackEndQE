@@ -31,6 +31,16 @@ public class Usuario  implements UserDetails {
     @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Profesor profesor;
 
+    public Usuario(String nombre, String email) {
+        this.nombre=nombre;
+        this.email=email;
+    }
+
+    public Usuario() {
+
+    }
+
+
     public int getId() {
         return id;
     }

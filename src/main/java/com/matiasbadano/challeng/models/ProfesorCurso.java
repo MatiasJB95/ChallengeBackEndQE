@@ -24,6 +24,13 @@ public class ProfesorCurso {
     @JoinColumn(name = "contenido_id")
     private Contenido contenido;
 
+    public ProfesorCurso(Profesor profesor1, Curso curso1, Turno turno) {
+    }
+
+    public ProfesorCurso() {
+
+    }
+
 
     public Contenido getContenido() {
         return contenido;

@@ -2,6 +2,7 @@ package com.matiasbadano.challeng.models;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,7 +17,7 @@ public class Profesor {
     private Usuario usuario;
 
     @OneToMany(mappedBy = "profesor", fetch = FetchType.LAZY)
-    private List<ProfesorCurso> cursos;
+    private List<ProfesorCurso> cursos = new ArrayList<>();
     @Column(name = "categoria_id")
     private int categoriaId;
 
@@ -26,6 +27,17 @@ public class Profesor {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "curso_id")
     private Curso curso;
+
+
+
+    public Profesor(Integer id, Usuario usuario) {
+        this.id = id;
+        this.usuario = usuario;
+    }
+
+    public Profesor() {
+
+    }
 
     public Contenido getContenido() {
         return contenido;
@@ -62,12 +74,8 @@ public class Profesor {
         this.categoria = categoria;
     }
 
-    public Profesor() {
-    }
-
-    public Profesor(Integer id, Usuario usuario) {
-        this.id = id;
-        this.usuario = usuario;
+    public List<ProfesorCurso> getCursos() {
+        return cursos;
     }
 
 
@@ -87,9 +95,6 @@ public class Profesor {
         this.usuario = usuario;
     }
 
-    public List<ProfesorCurso> getCursos() {
-        return cursos;
-    }
 
     public void setCursos(List<ProfesorCurso> cursos) {
         this.cursos = cursos;

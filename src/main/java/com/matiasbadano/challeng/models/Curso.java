@@ -2,6 +2,8 @@ package com.matiasbadano.challeng.models;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+
 @Entity
 @Table(name = "curso")
 public class Curso {
@@ -15,37 +17,21 @@ public class Curso {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profesor_id")
     private Profesor profesor;
-
-    public Curso() {
-
-    }
-
-
-    public Profesor getProfesor() {
-        return profesor;
-    }
-
-    public void setProfesor(Profesor profesor) {
-        this.profesor = profesor;
-    }
 
     @Enumerated(EnumType.STRING)
     @Column(name = "turno")
     private Turno turno;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "contenido_id")
+    private Contenido contenido;
 
-
-    public Curso(long id, String nombre, String turno) {
-        this.id = (int) id;
-        this.nombre = nombre;
-        this.turno = Turno.valueOf(turno);
+    public Curso() {
     }
-
-
-
 
     public int getId() {
         return id;
@@ -71,6 +57,14 @@ public class Curso {
         this.categoria = categoria;
     }
 
+    public Profesor getProfesor() {
+        return profesor;
+    }
+
+    public void setProfesor(Profesor profesor) {
+        this.profesor = profesor;
+    }
+
     public Turno getTurno() {
         return turno;
     }
@@ -79,6 +73,11 @@ public class Curso {
         this.turno = turno;
     }
 
-    public void setCategoriaId(Long categoriaId) {
+    public Contenido getContenido() {
+        return contenido;
+    }
+
+    public void setContenido(Contenido contenido) {
+        this.contenido = contenido;
     }
 }

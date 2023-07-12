@@ -25,10 +25,11 @@ public class ProfesorService {
 
 
     public ProfesorService(ProfesorRepository profesorRepository,
-                           UsuarioRepository usuarioRepository, CursoRepository cursoRepository  ) {
+                           UsuarioRepository usuarioRepository, CursoRepository cursoRepository, PasswordEncoder passwordEncoder  ) {
         this.profesorRepository = profesorRepository;
         this.usuarioRepository = usuarioRepository;
         this.cursoRepository = cursoRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public void crearProfesor(String nombre, String email, String contrasena, int categoriaId) {
@@ -78,8 +79,13 @@ public class ProfesorService {
 
             for (ProfesorCurso profesorCurso : profesor.getCursos()) {
                 Curso curso = profesorCurso.getCurso();
-                nombresCursos.add(curso.getNombre());
-                turnosCursos.add(profesorCurso.getTurno().name());
+                if (curso != null) {
+                    nombresCursos.add(curso.getNombre());
+                }
+
+                Turno turno = profesorCurso.getTurno();
+                String nombreTurno = turno != null ? turno.name() : "Sin turno asignado";
+                turnosCursos.add(nombreTurno);
             }
 
             ProfesorDTO profesorDTO = new ProfesorDTO(
@@ -95,17 +101,6 @@ public class ProfesorService {
         }
 
         return profesoresDTO;
-    }
-    public String obtenerNombreProfesorPorId(Integer profesorId) {
-        Optional<Profesor> optionalProfesor = profesorRepository.findById(profesorId);
-        if (optionalProfesor.isPresent()) {
-            Profesor profesor = optionalProfesor.get();
-            int idProfesor = profesor.getId();
-            Usuario usuario = profesor.getUsuario();
-            return usuario.getNombre();
-        } else {
-            throw new ProfesorNotFoundException("El profesor con ID " + profesorId + " no existe.");
-        }
     }
 
     public List<Profesor> obtenerTodosLosProfesores() {
@@ -152,19 +147,10 @@ public class ProfesorService {
     }
 
 
-    public void removerProfesorDeCurso(Long profesorId, Long cursoId) {
-        Profesor profesor = profesorRepository.findById(profesorId.intValue())
-                .orElseThrow(() -> new ProfesorNotFoundException("Profesor no encontrado"));
-
-        Curso curso = cursoRepository.findById(cursoId)
-                .orElseThrow(() -> new CursoNotFoundException("Curso no encontrado"));
-
-        profesor.removerCurso(curso);
-        profesorRepository.save(profesor);
-    }
     public Categoria obtenerCategoriaPorProfesor(Long profesorId) {
         Profesor profesor = profesorRepository.findById(Math.toIntExact(profesorId))
                 .orElseThrow(() -> new ProfesorNotFoundException("Profesor no encontrado"));
         return profesor.getCategoria();
     }
+
 }
