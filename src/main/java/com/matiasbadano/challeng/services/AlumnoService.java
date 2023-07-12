@@ -1,7 +1,6 @@
 package com.matiasbadano.challeng.services;
 
 
-import com.matiasbadano.challeng.config.AlumnoNotFoundException;
 import com.matiasbadano.challeng.dto.AlumnoDTO;
 import com.matiasbadano.challeng.models.*;
 import com.matiasbadano.challeng.repository.AlumnoRepository;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AlumnoService {

@@ -1,6 +1,5 @@
 package com.matiasbadano.challeng.services;
 
-import com.matiasbadano.challeng.config.CursoNotFoundException;
 import com.matiasbadano.challeng.models.Curso;
 import com.matiasbadano.challeng.models.ProfesorCurso;
 import com.matiasbadano.challeng.repository.CursoRepository;

@@ -5,8 +5,6 @@ import com.matiasbadano.challeng.models.Inscripcion;
 import com.matiasbadano.challeng.repository.AlumnoRepository;
 import com.matiasbadano.challeng.repository.CursoRepository;
 import com.matiasbadano.challeng.repository.InscripcionRepository;
-import com.matiasbadano.challeng.config.AlumnoNotFoundException;
-import com.matiasbadano.challeng.config.CursoNotFoundException;
 import com.matiasbadano.challeng.services.InscripcionService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

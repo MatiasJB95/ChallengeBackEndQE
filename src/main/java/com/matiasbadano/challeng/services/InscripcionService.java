@@ -1,7 +1,5 @@
 package com.matiasbadano.challeng.services;
 
-import com.matiasbadano.challeng.config.AlumnoNotFoundException;
-import com.matiasbadano.challeng.config.CursoNotFoundException;
 import com.matiasbadano.challeng.dto.InscripcionDTO;
 import com.matiasbadano.challeng.models.Alumno;
 import com.matiasbadano.challeng.models.Curso;

@@ -1,4 +1,3 @@
-import com.matiasbadano.challeng.config.CursoNotFoundException;
 import com.matiasbadano.challeng.dto.CursoDTO;
 import com.matiasbadano.challeng.models.*;
 import com.matiasbadano.challeng.repository.CursoRepository;

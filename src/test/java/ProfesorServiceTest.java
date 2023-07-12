@@ -1,4 +1,3 @@
-import com.matiasbadano.challeng.config.ProfesorNotFoundException;
 import com.matiasbadano.challeng.dto.ProfesorDTO;
 import com.matiasbadano.challeng.models.*;
 import com.matiasbadano.challeng.repository.CursoRepository;

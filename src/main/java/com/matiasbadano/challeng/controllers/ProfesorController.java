@@ -1,7 +1,5 @@
 package com.matiasbadano.challeng.controllers;
 
-import com.matiasbadano.challeng.config.AlumnoNotFoundException;
-import com.matiasbadano.challeng.models.Alumno;
 import com.matiasbadano.challeng.models.Categoria;
 import com.matiasbadano.challeng.models.Usuario;
 import com.matiasbadano.challeng.repository.AlumnoRepository;
@@ -13,8 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.List;
 
 @Controller
 public class ProfesorController {

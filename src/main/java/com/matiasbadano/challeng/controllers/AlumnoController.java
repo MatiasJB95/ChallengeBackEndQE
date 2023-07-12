@@ -1,15 +1,14 @@
 package com.matiasbadano.challeng.controllers;
 
-import com.matiasbadano.challeng.config.AlumnoNotFoundException;
 import com.matiasbadano.challeng.dto.AlumnoDTO;
 import com.matiasbadano.challeng.dto.CursoDTO;
 import com.matiasbadano.challeng.dto.InscripcionDTO;
 import com.matiasbadano.challeng.models.*;
 import com.matiasbadano.challeng.repository.*;
 import com.matiasbadano.challeng.services.*;
+import com.matiasbadano.challeng.services.exception.AlumnoNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

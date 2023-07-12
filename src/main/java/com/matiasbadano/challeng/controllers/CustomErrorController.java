@@ -1,6 +1,6 @@
 package com.matiasbadano.challeng.controllers;
 
-import com.matiasbadano.challeng.config.AlumnoNotFoundException;
+import com.matiasbadano.challeng.services.exception.AlumnoNotFoundException;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.boot.web.servlet.error.ErrorController;

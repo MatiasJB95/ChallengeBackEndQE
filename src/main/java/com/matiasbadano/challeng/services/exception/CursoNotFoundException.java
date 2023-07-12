@@ -1,4 +1,4 @@
-package com.matiasbadano.challeng.config;
+package com.matiasbadano.challeng.services.exception;
 
 public class CursoNotFoundException extends RuntimeException{
     public CursoNotFoundException(String message) {

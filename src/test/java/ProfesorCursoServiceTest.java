@@ -4,7 +4,6 @@ import com.matiasbadano.challeng.models.ProfesorCurso;
 import com.matiasbadano.challeng.repository.CursoRepository;
 import com.matiasbadano.challeng.repository.ProfesorCursoRepository;
 import com.matiasbadano.challeng.services.ProfesorCursoService;
-import com.matiasbadano.challeng.config.CursoNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
