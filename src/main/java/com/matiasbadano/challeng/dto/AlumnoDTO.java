@@ -8,7 +8,7 @@ public class AlumnoDTO {
     private String email;
     private String nacionalidad;
     private String paisResidencia;
-    private int edad;
+    private Integer edad;
     private String telefono;
     private UsuarioDTO usuario;
     private List<String> cursos;
@@ -18,7 +18,7 @@ public class AlumnoDTO {
 
     }
 
-    public AlumnoDTO(int id,String nombre, String email,  String nacionalidad, String paisResidencia, int edad, String telefono, List<String> cursos, String turno  ) {
+    public AlumnoDTO(int id,String nombre, String email,  String nacionalidad, String paisResidencia, Integer edad, String telefono, List<String> cursos, String turno  ) {
        this.id = id;
         this.nombre = nombre;
         this.email = email;
@@ -74,11 +74,11 @@ public class AlumnoDTO {
         this.paisResidencia = paisResidencia;
     }
 
-    public int getEdad() {
+    public Integer getEdad() {
         return edad;
     }
 
-    public void setEdad(int edad) {
+    public void setEdad(Integer edad) {
         this.edad = edad;
     }
 

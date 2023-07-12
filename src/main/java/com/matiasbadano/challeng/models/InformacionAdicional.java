@@ -19,7 +19,7 @@ public class InformacionAdicional {
     private String paisResidencia;
 
     @Column(name = "edad")
-    private int edad;
+    private Integer edad;
 
     @Column(name = "telefono", length = 20)
     private String telefono;
@@ -58,11 +58,11 @@ public class InformacionAdicional {
         this.paisResidencia = paisResidencia;
     }
 
-    public int getEdad() {
+    public Integer getEdad() {
         return edad;
     }
 
-    public void setEdad(int edad) {
+    public void setEdad(Integer edad) {
         this.edad = edad;
     }
 

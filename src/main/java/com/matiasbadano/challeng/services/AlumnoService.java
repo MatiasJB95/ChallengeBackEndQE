@@ -97,10 +97,14 @@ public class AlumnoService {
             if (informacionAdicional != null) {
                 alumnoDTO.setNacionalidad(informacionAdicional.getNacionalidad());
                 alumnoDTO.setPaisResidencia(informacionAdicional.getPaisResidencia());
-                alumnoDTO.setEdad(informacionAdicional.getEdad());
+                alumnoDTO.setEdad(informacionAdicional.getEdad() != null ? informacionAdicional.getEdad() : null);
                 alumnoDTO.setTelefono(informacionAdicional.getTelefono());
+            } else {
+                alumnoDTO.setNacionalidad(null);
+                alumnoDTO.setPaisResidencia(null);
+                alumnoDTO.setEdad(null);
+                alumnoDTO.setTelefono(null);
             }
-
             List<Inscripcion> inscripciones = inscripcionRepository.findByAlumnoId(alumno.getId());
             List<String> nombresCursos = new ArrayList<>();
 
