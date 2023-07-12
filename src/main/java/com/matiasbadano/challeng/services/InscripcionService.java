@@ -45,10 +45,6 @@ public class InscripcionService {
     }
 
 
-    public List<InscripcionDTO> obtenerInscripcionesPorAlumnoId(Long alumnoId) {
-        return inscripcionRepository.obtenerInscripcionesPorAlumnoId(alumnoId);
-    }
-
     public List<InscripcionDTO> obtenerInscripcionesPorCursoId(Long cursoId) {
         List<Inscripcion> inscripciones = inscripcionRepository.findByCursoId(cursoId);
         List<InscripcionDTO> inscripcionesDTO = new ArrayList<>();

@@ -142,26 +142,7 @@ public class AlumnoService {
         informacionAdicionalRepository.save(informacionAdicional);
         alumnoRepository.save(alumnoExistente);
     }
-    public void actualizarInformacionAdicional(AlumnoDTO alumno) {
-        Alumno alumnoExistente = alumnoRepository.findById(alumno.getId())
-                .orElseThrow(() -> new AlumnoNotFoundException("El alumno con ID " + alumno.getId() + " no existe."));
-        InformacionAdicional informacionAdicional = alumnoExistente.getInformacionAdicional();
-        if (informacionAdicional == null) {
-            informacionAdicional = new InformacionAdicional();
-            informacionAdicional.setAlumno(alumnoExistente);
-            alumnoExistente.setInformacionAdicional(informacionAdicional);
-        }
-        informacionAdicional.setNacionalidad(alumno.getNacionalidad());
-        informacionAdicional.setPaisResidencia(alumno.getPaisResidencia());
-        informacionAdicional.setEdad(alumno.getEdad());
-        informacionAdicional.setTelefono(alumno.getTelefono());
 
-        informacionAdicionalRepository.save(informacionAdicional);
-        alumnoRepository.save(alumnoExistente);
-    }
-    public List<Alumno> obtenerAlumnosPorCurso(Long cursoId) {
-        return alumnoRepository.findByInscripcionesCursoId(cursoId);
-    }
     public List<Alumno> buscarPorNombre(String nombre) {
   return alumnoRepository.findByUsuarioNombreContainingIgnoreCase(nombre);
     }
@@ -199,7 +180,10 @@ public class AlumnoService {
         }
 
         return alumnoDTO;
+
     }
+
+
 
 
 }

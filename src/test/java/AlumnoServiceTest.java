@@ -104,15 +104,15 @@ public class AlumnoServiceTest {
         Alumno alumno1 = new Alumno();
         alumno1.setId(1);
         Usuario usuario1 = new Usuario();
-        usuario1.setNombre("John Doe");
-        usuario1.setEmail("john.doe@example.com");
+        usuario1.setNombre("Pepe Sand");
+        usuario1.setEmail("PepeSand@alumno.com");
         alumno1.setUsuario(usuario1);
 
         Alumno alumno2 = new Alumno();
         alumno2.setId(2);
         Usuario usuario2 = new Usuario();
-        usuario2.setNombre("Jane Smith");
-        usuario2.setEmail("jane.smith@example.com");
+        usuario2.setNombre("Virginia Cafe");
+        usuario2.setEmail( "VirginiaCafe@alumno.com");
         alumno2.setUsuario(usuario2);
 
         InformacionAdicional informacionAdicional = new InformacionAdicional();
@@ -163,5 +163,124 @@ public class AlumnoServiceTest {
         verify(informacionAdicionalRepository, times(1)).findByAlumnoId(eq(alumno2.getId()));
         verify(inscripcionRepository, times(2)).findByAlumnoId(anyInt());
     }
+    @Test
+    public void testActualizarAlumno() {
+        Long alumnoId = 1L;
+        String nombre = "Pepe Sand";
+        String email = "PepeSand@alumno.com";
+        String nacionalidad = "Argentina";
+        String paisResidencia = "Argentina";
+        Integer edad = 25;
+        String telefono = "123456789";
 
+        // Mocks
+        Alumno alumnoExistente = new Alumno();
+        alumnoExistente.setId(Math.toIntExact(alumnoId));
+
+        Usuario usuario = new Usuario();
+        alumnoExistente.setUsuario(usuario);
+
+        InformacionAdicional informacionAdicional = new InformacionAdicional();
+        alumnoExistente.setInformacionAdicional(informacionAdicional);
+
+        when(alumnoRepository.findById(Math.toIntExact(alumnoId))).thenReturn(Optional.of(alumnoExistente));
+
+        AlumnoDTO alumnoDTO = new AlumnoDTO();
+        alumnoDTO.setId(Math.toIntExact(alumnoId));
+        alumnoDTO.setNombre(nombre);
+        alumnoDTO.setEmail(email);
+        alumnoDTO.setNacionalidad(nacionalidad);
+        alumnoDTO.setPaisResidencia(paisResidencia);
+        alumnoDTO.setEdad(edad);
+        alumnoDTO.setTelefono(telefono);
+
+        alumnoService.actualizarAlumno(alumnoDTO);
+
+        assertEquals(nombre, usuario.getNombre());
+        assertEquals(email, usuario.getEmail());
+        assertEquals(nacionalidad, informacionAdicional.getNacionalidad());
+        assertEquals(paisResidencia, informacionAdicional.getPaisResidencia());
+        assertEquals(edad, informacionAdicional.getEdad());
+        assertEquals(telefono, informacionAdicional.getTelefono());
+
+        verify(alumnoRepository, times(1)).findById(Math.toIntExact(alumnoId));
+        verify(informacionAdicionalRepository, times(1)).save(informacionAdicional);
+        verify(alumnoRepository, times(1)).save(alumnoExistente);
+    }
+    @Test
+    public void testBuscarPorNombre() {
+        String nombre = "Pepe Sand";
+
+        Alumno alumno1 = new Alumno();
+        alumno1.setId(1);
+        Usuario usuario1 = new Usuario();
+        usuario1.setNombre("Pepe Sand");
+        alumno1.setUsuario(usuario1);
+
+        Alumno alumno2 = new Alumno();
+        alumno2.setId(2);
+        Usuario usuario2 = new Usuario();
+        usuario2.setNombre("Virginia Cafe");
+        alumno2.setUsuario(usuario2);
+
+        when(alumnoRepository.findByUsuarioNombreContainingIgnoreCase(nombre))
+                .thenReturn(Arrays.asList(alumno1, alumno2));
+
+        List<Alumno> resultado = alumnoService.buscarPorNombre(nombre);
+
+        assertNotNull(resultado);
+        assertEquals(2, resultado.size());
+
+        Alumno resultadoAlumno1 = resultado.get(0);
+        assertEquals(alumno1.getId(), resultadoAlumno1.getId());
+        assertEquals(usuario1.getNombre(), resultadoAlumno1.getUsuario().getNombre());
+
+        Alumno resultadoAlumno2 = resultado.get(1);
+        assertEquals(alumno2.getId(), resultadoAlumno2.getId());
+        assertEquals(usuario2.getNombre(), resultadoAlumno2.getUsuario().getNombre());
+
+        verify(alumnoRepository, times(1)).findByUsuarioNombreContainingIgnoreCase(nombre);
+    }
+    @Test
+    public void testConvertirAlumnoAAlumnoDTO() {
+
+        Alumno alumno = new Alumno();
+        alumno.setId(1);
+        Usuario usuario = new Usuario();
+        usuario.setNombre("PepeSand");
+        usuario.setEmail("PepeSand@alumno.com");
+        alumno.setUsuario(usuario);
+
+
+        AlumnoDTO alumnoDTO = alumnoService.convertirAlumnoAAlumnoDTO(alumno);
+
+        assertNotNull(alumnoDTO);
+        assertEquals(alumno.getId(), alumnoDTO.getId());
+        assertEquals(usuario.getNombre(), alumnoDTO.getNombre());
+        assertEquals(usuario.getEmail(), alumnoDTO.getEmail());
+    }
+
+    @Test
+    public void testConvertirAlumnoAAlumnoDTO_AlumnoSinUsuario() {
+
+        Alumno alumno = new Alumno();
+        alumno.setId(1);
+
+
+        AlumnoDTO alumnoDTO = alumnoService.convertirAlumnoAAlumnoDTO(alumno);
+
+
+        assertNotNull(alumnoDTO);
+        assertEquals(alumno.getId(), alumnoDTO.getId());
+        assertNull(alumnoDTO.getNombre());
+        assertNull(alumnoDTO.getEmail());
+    }
+    @Test
+    public void testEliminarAlumno() {
+        Integer id = 1;
+
+        alumnoService.eliminarAlumno(id);
+        
+        verify(alumnoRepository, times(1)).deleteById(id);
+    }
 }
