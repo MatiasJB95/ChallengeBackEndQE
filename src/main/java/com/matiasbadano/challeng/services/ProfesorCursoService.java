@@ -31,5 +31,6 @@ private final CursoRepository cursoRepository;
 
         profesorCursoRepository.save(profesorCurso);
     }
+
 }
 
