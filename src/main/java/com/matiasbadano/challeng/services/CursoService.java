@@ -1,8 +1,6 @@
 package com.matiasbadano.challeng.services;
 
-import com.matiasbadano.challeng.config.CategoriaNotFoundException;
 import com.matiasbadano.challeng.config.CursoNotFoundException;
-import com.matiasbadano.challeng.config.ProfesorNotFoundException;
 import com.matiasbadano.challeng.dto.CursoDTO;
 import com.matiasbadano.challeng.models.*;
 import com.matiasbadano.challeng.repository.CategoriaRepository;
@@ -17,16 +15,13 @@ import java.util.stream.Collectors;
 public class CursoService {
 
     private final CursoRepository cursoRepository;
-    private final CategoriaRepository categoriaRepository;
-    private final ProfesorRepository profesorRepository;
 
 
-    public CursoService(CursoRepository cursoRepository,
-                        CategoriaRepository categoriaRepository,
-                        ProfesorRepository profesorRepository  ) {
+
+
+    public CursoService(CursoRepository cursoRepository  ) {
         this.cursoRepository = cursoRepository;
-        this.categoriaRepository =categoriaRepository;
-        this.profesorRepository =profesorRepository;
+
     }
     public void guardarCurso(Curso curso) {
 

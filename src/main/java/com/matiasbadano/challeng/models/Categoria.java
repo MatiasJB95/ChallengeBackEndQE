@@ -26,6 +26,8 @@ public class Categoria {
 
     }
 
+
+
     public Profesor getProfesor() {
         return profesor;
     }

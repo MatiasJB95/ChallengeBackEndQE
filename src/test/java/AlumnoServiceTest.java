@@ -280,7 +280,7 @@ public class AlumnoServiceTest {
         Integer id = 1;
 
         alumnoService.eliminarAlumno(id);
-        
+
         verify(alumnoRepository, times(1)).deleteById(id);
     }
 }
