@@ -7,6 +7,8 @@ import com.matiasbadano.challeng.models.Inscripcion;
 import com.matiasbadano.challeng.repository.AlumnoRepository;
 import com.matiasbadano.challeng.repository.CursoRepository;
 import com.matiasbadano.challeng.repository.InscripcionRepository;
+import com.matiasbadano.challeng.services.exception.AlumnoNotFoundException;
+import com.matiasbadano.challeng.services.exception.CursoNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

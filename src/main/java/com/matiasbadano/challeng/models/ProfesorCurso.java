@@ -1,7 +1,16 @@
 package com.matiasbadano.challeng.models;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "profesorcurso")
 public class ProfesorCurso {
@@ -23,52 +32,4 @@ public class ProfesorCurso {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "contenido_id")
     private Contenido contenido;
-
-    public ProfesorCurso(Profesor profesor1, Curso curso1, Turno turno) {
-    }
-
-    public ProfesorCurso() {
-
-    }
-
-
-    public Contenido getContenido() {
-        return contenido;
-    }
-
-    public void setContenido(Contenido contenido) {
-        this.contenido = contenido;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Profesor getProfesor() {
-        return profesor;
-    }
-
-    public void setProfesor(Profesor profesor) {
-        this.profesor = profesor;
-    }
-
-    public Curso getCurso() {
-        return curso;
-    }
-
-    public void setCurso(Curso curso) {
-        this.curso = curso;
-    }
-
-    public Turno getTurno() {
-        return turno;
-    }
-
-    public void setTurno(Turno turno) {
-        this.turno = turno;
-    }
 }

@@ -3,6 +3,15 @@ package com.matiasbadano.challeng.models;
 import jakarta.persistence.*;
 
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 
 @Entity
 @Table(name = "categoria")
@@ -21,63 +30,5 @@ public class Categoria {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profesor_id")
     private Profesor profesor;
-
-    public Categoria() {
-
-    }
-
-    public Categoria(int i) {
-    }
-
-    public Categoria(long l, String s) {
-    }
-
-
-    public Profesor getProfesor() {
-        return profesor;
-    }
-
-    public void setProfesor(Profesor profesor) {
-        this.profesor = profesor;
-    }
-
-    public Categoria(long id, String nombre, List<Curso> cursos) {
-        this.id = id;
-        this.nombre = nombre;
-        this.cursos = cursos;
-    }
-
-    public List<Curso> getCursos() {
-        return cursos;
-    }
-
-    public void setCursos(List<Curso> cursos) {
-        this.cursos = cursos;
-    }
-
-    public Long  getId() {
-        return id;
-    }
-
-    public void setId(Long  id) {
-        this.id = id;
-    }
-
-    public Integer getProfesorId() {
-        return profesorId;
-    }
-    public void setProfesorId(Integer profesorId) {
-        this.profesorId = profesorId;
-
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
 
 }

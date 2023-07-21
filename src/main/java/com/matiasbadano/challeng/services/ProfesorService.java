@@ -5,6 +5,7 @@ import com.matiasbadano.challeng.models.*;
 import com.matiasbadano.challeng.repository.CursoRepository;
 import com.matiasbadano.challeng.repository.ProfesorRepository;
 import com.matiasbadano.challeng.repository.UsuarioRepository;
+import com.matiasbadano.challeng.services.exception.ProfesorNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

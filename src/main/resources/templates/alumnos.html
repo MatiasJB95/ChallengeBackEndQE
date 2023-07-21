@@ -58,6 +58,16 @@
         </form>
     </li>
 </ul>
+<script>
+    function toggleForm() {
+        var formContainer = document.getElementById("formContainer");
+        if (formContainer.classList.contains("hidden")) {
+            formContainer.classList.remove("hidden");
+        } else {
+            formContainer.classList.add("hidden");
+        }
+    }
+</script>
 
 </body>
 </html>

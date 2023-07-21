@@ -7,6 +7,7 @@ import com.matiasbadano.challeng.repository.AlumnoRepository;
 import com.matiasbadano.challeng.repository.InformacionAdicionalRepository;
 import com.matiasbadano.challeng.repository.InscripcionRepository;
 import com.matiasbadano.challeng.repository.UsuarioRepository;
+import com.matiasbadano.challeng.services.exception.AlumnoNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

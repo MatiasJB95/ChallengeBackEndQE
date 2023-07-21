@@ -1,5 +1,14 @@
 package com.matiasbadano.challeng.models;
 import jakarta.persistence.*;
+
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import java.util.List;
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "administrador")
 public class Administrador {
@@ -11,21 +20,5 @@ public class Administrador {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    // Constructor, getters, and setters
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
 }

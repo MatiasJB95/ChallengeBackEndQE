@@ -158,7 +158,7 @@ public class AdministradorController {
     @GetMapping("/admin/cursos/{id}")
     public String obtenerCursoPorId(@PathVariable("id") Long id, Model model) {
         Curso curso = cursoService.obtenerCursoPorId(id);
-        List<Categoria> categorias = categoriaService.obtenerTodasLasCategorias();
+        List<CategoriaDTO> categorias = categoriaService.obtenerNombresCategorias();
         List<Profesor> profesores = profesorService.obtenerTodosLosProfesores();
         Profesor profesor = curso.getProfesor();
         String nombreProfesor = null;

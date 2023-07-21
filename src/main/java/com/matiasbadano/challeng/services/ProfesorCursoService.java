@@ -4,6 +4,7 @@ import com.matiasbadano.challeng.models.Curso;
 import com.matiasbadano.challeng.models.ProfesorCurso;
 import com.matiasbadano.challeng.repository.CursoRepository;
 import com.matiasbadano.challeng.repository.ProfesorCursoRepository;
+import com.matiasbadano.challeng.services.exception.CursoNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 

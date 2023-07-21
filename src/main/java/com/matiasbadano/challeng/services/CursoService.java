@@ -3,6 +3,7 @@ package com.matiasbadano.challeng.services;
 import com.matiasbadano.challeng.dto.CursoDTO;
 import com.matiasbadano.challeng.models.*;
 import com.matiasbadano.challeng.repository.CursoRepository;
+import com.matiasbadano.challeng.services.exception.CursoNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
