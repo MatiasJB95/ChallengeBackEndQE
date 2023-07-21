@@ -12,8 +12,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface CursoRepository extends JpaRepository<Curso, Long> {
-    @Query("SELECT new com.matiasbadano.challeng.dto.CursoDTO(c.nombre, c.turno, c.contenido) FROM Curso c")
-    List<CursoDTO> findAllCursosDTO();
     @Query("SELECT c.nombre FROM Curso c WHERE c.categoria.id = :categoriaId")
     List<String> findNombresCursosByCategoriaId(@Param("categoriaId") Long categoriaId);
 
