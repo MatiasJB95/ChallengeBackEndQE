@@ -1,9 +1,6 @@
 package com.matiasbadano.challeng.controllers;
 
-import com.matiasbadano.challeng.dto.AlumnoDTO;
-import com.matiasbadano.challeng.dto.CursoDTO;
-import com.matiasbadano.challeng.dto.InscripcionDTO;
-import com.matiasbadano.challeng.dto.ProfesorDTO;
+import com.matiasbadano.challeng.dto.*;
 import com.matiasbadano.challeng.models.*;
 import com.matiasbadano.challeng.repository.CursoRepository;
 import com.matiasbadano.challeng.repository.ProfesorCursoRepository;
@@ -22,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class AdministradorController {
@@ -296,6 +294,46 @@ public class AdministradorController {
 
         return "busqueda-alumnos";
     }
+    @GetMapping("/admin/categorias")
+    public String obtenerCategorias(Model model) {
+        List<CategoriaDTO> categoriasDTO = categoriaService.obtenerNombresCategorias();
+        model.addAttribute("categorias", categoriasDTO);
+        return "categorias";
+    }
+    @PostMapping("/admin/categorias")
+    public String registrarCategoria(@RequestParam("nombre") String nombre, Model model) {
+        Categoria categoria = new Categoria();
+        categoria.setNombre(nombre);
+        Categoria savedCategoria = categoriaService.guardarCategoria(categoria);
+
+        model.addAttribute("mensaje", "Categoria Registrada: " + savedCategoria.getNombre());
+        return "categorias";
+    }
+    @GetMapping("/admin/categorias/{id}")
+    public String obtenerCategoriaPorId(@PathVariable("id") Long id, Model model) {
+        CategoriaDTO categoria = categoriaService.obtenerCategoriaPorId(id);
+        Categoria categoriaEntity = categoriaService.obtenerCategoriaEntityPorId(id);
+
+        List<String> nombresCursos = categoriaEntity.getCursos().stream()
+                .map(Curso::getNombre)
+                .collect(Collectors.toList());
+
+        categoria.setNombresCursos(nombresCursos);
+
+        model.addAttribute("categoria", categoria);
+        return "detalle-categoria";
+    }
+    @PostMapping("/admin/categorias/{id}/eliminar")
+    public String eliminarCategoria(@PathVariable("id") Long id) {
+        categoriaService.eliminarCategoriaPorId(id);
+        return "redirect:/admin/categorias";
+    }
+    @PostMapping("/admin/categorias/{id}")
+    public String actualizarCategoria(@PathVariable("id") Long id, @RequestParam("nombre") String nombre) {
+        categoriaService.actualizarCategoria(id, nombre);
+        return "redirect:/admin/categorias/" + id;
+    }
+
 
 }
 
