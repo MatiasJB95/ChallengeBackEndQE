@@ -19,6 +19,9 @@ Se implementaron operaciones CRUD completas para las entidades principales del s
 ### MVC (Modelo-Vista-Controlador)
 Se siguió el patrón de diseño Modelo-Vista-Controlador (MVC) para organizar y estructurar el código.
 
+### Pruebas Unitarias
+Se adoptó una estrategia rigurosa de pruebas unitarias. Utilizando Mockito y JUnit Jupiter, se evaluó individualmente cada componente del código para garantizar su calidad y robustez. Las pruebas abarcaron casos como la creación de usuarios y la autenticación, permitiendo la detección temprana de errores.
+
 ## Tecnologías utilizadas
 
 - Java: Lenguaje de programación principal utilizado en el desarrollo del BackEnd.
