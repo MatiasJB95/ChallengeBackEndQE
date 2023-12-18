@@ -39,7 +39,6 @@
 <h2>Editar Alumno</h2>
 <form th:action="@{'/admin/alumnos/' + ${alumno.id}}" method="post">
     <input type="hidden" name="_method" value="put">
-    <!-- Resto de los campos para editar el alumno -->
     <label for="nombre">Nombre:</label>
     <input type="text" id="nombre" name="nombre" th:value="${alumno.nombre}" required><br>
 

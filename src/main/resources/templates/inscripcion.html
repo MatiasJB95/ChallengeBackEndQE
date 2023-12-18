@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Cursos</title>
+</head>
+<body>
+<h1>Lista de Cursos</h1>
+<h2>Inscribe</h2>
+<ul>
+  <li th:each="curso : ${cursos}">
+    <h3>Curso: <span th:text="${curso.nombre}"></span></h3>
+    <p>Turno: <span th:text="${curso.turno}"></span></p>
+    <p>Profesor: <span th:text="${curso.nombreProfesor}"></span></p>
+    <form th:action="@{'/alumno/cursos/' +${curso.id
+    }}" method="post">
+      <button>Inscribirse</button>
+    </form>
+  </li>
+</ul>
+<a href="/logout"><button>Cerrer Sesion</button></a>
+</body>
+</html>

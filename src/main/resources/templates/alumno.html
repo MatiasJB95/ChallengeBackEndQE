@@ -7,25 +7,33 @@
 <body>
 <h2>Bienvenido, <span th:text="${nombreUsuario}"></span></h2>
 <p>Email: <span th:text="${email}"></span></p>
+<div>
+<h3>Informacion Personal</h3>
+<form th:action="@{/alumno}" method="post">
+    <input type="hidden" name="_method" value="put">
 
+    <label for="nacionalidad">Nacionalidad:</label>
+    <input type="text" id="nacionalidad" name="nacionalidad" th:value="${alumno.informacionAdicional.nacionalidad}" required><br>
+
+    <label for="paisResidencia">País de Residencia:</label>
+    <input type="text" id="paisResidencia" name="paisResidencia" th:value="${alumno.informacionAdicional.paisResidencia}" required><br>
+
+    <label for="edad">Edad:</label>
+    <input type="number" id="edad" name="edad" th:value="${alumno.informacionAdicional.edad}" required><br>
+
+    <label for="telefono">Teléfono:</label>
+    <input type="tel" id="telefono" name="telefono" th:value="${alumno.informacionAdicional.telefono}" required><br>
+
+    <button type="submit">Actualizar Datos</button>
+
+</form>
+<h3>Mis Cursos:</h3>
 <ul>
-    <li>
-        <!-- Detalles del alumno -->
-        <p>Nombre: <span th:text="${alumno.usuario.nombre}"></span></p>
-        <p>Email: <span th:text="${alumno.usuario.email}"></span></p>
-        <p>Nacionalidad: <span th:text="${alumno.informacionAdicional.nacionalidad}"></span></p>
-        <p>País de Residencia: <span th:text="${alumno.informacionAdicional.paisResidencia}"></span></p>
-        <p>Edad: <span th:text="${alumno.informacionAdicional.edad}"></span></p>
-        <p>Teléfono: <span th:text="${alumno.informacionAdicional.telefono}"></span></p>
-        <p>Cursos:</p>
-        <ul>
-            <li th:each="inscripcion : ${alumno.inscripciones}">
-                <span th:text="${inscripcion.curso.nombre}"></span>
-            </li>
-        </ul>
+    <li th:each="inscripcion : ${alumno.inscripciones}">
+        <span th:text="${inscripcion.curso.nombre}"></span>
     </li>
 </ul>
-
-<a href="/logout">Cerrar sesión</a>
+</div>
+<a href="/logout"><button>Cerrer Sesion</button></a>
 </body>
 </html>
